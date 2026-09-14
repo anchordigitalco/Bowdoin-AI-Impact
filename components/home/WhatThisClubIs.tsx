@@ -1,7 +1,6 @@
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Reveal } from "@/components/ui/Reveal";
-import { CountUp } from "@/components/ui/CountUp";
 
 const meetingTypes = [
   {
@@ -33,11 +32,12 @@ export function WhatThisClubIs() {
                 {/* A real, large numeral rather than a small-caps eyebrow —
                     there are genuinely only two kinds of meetings, so the
                     number carries weight instead of being decoration. */}
-                <CountUp
-                  to={type.order}
-                  padTo={2}
+                <span
                   className="mb-4 block font-display text-4xl text-muted-foreground/50 sm:text-5xl"
-                />
+                  aria-hidden="true"
+                >
+                  {String(type.order).padStart(2, "0")}
+                </span>
                 <CardTitle>{type.title}</CardTitle>
                 <CardDescription>{type.description}</CardDescription>
               </Card>

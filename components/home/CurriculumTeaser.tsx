@@ -3,7 +3,6 @@ import { ArrowRight } from "lucide-react";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Reveal } from "@/components/ui/Reveal";
-import { CountUp } from "@/components/ui/CountUp";
 import { curriculum } from "@/data/curriculum";
 
 export function CurriculumTeaser() {
@@ -20,11 +19,12 @@ export function CurriculumTeaser() {
           <li key={session.order}>
             <Reveal delay={i * 60}>
               <Card>
-                <CountUp
-                  to={session.order}
-                  padTo={2}
+                <span
                   className="mb-4 block font-display text-4xl text-muted-foreground/50"
-                />
+                  aria-hidden="true"
+                >
+                  {String(session.order).padStart(2, "0")}
+                </span>
                 <CardTitle>{session.title}</CardTitle>
                 <CardDescription>{session.description}</CardDescription>
               </Card>
