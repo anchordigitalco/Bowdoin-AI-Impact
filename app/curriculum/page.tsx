@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { PageIntro } from "@/components/ui/PageIntro";
-import { Reveal } from "@/components/ui/Reveal";
+import { CoverFlowCarousel } from "@/components/ui/CoverFlowCarousel";
 import { MeetingBlock } from "@/components/home/MeetingBlock";
 import { ClosingCta } from "@/components/home/ClosingCta";
 import { curriculum } from "@/data/curriculum";
@@ -21,32 +21,13 @@ export default function CurriculumPage() {
             and nothing here assumes a technical background.
           </p>
         </PageIntro>
-        {/* A numbered row-list rather than a card grid — seven items
-            doesn't divide evenly into three columns, so a grid always
-            leaves an orphaned card in the last row. This also reads more
-            like a real syllabus than a feature-grid template. */}
-        <ul className="divide-y divide-border border-t border-border">
-          {curriculum.map((session, i) => (
-            <li key={session.order}>
-              <Reveal delay={Math.min(i, 6) * 50}>
-                <div className="flex flex-col gap-2 py-8 sm:flex-row sm:items-baseline sm:gap-10">
-                  <span
-                    className="font-display text-2xl text-muted-foreground/50 sm:w-14 sm:shrink-0"
-                    aria-hidden="true"
-                  >
-                    {String(session.order).padStart(2, "0")}
-                  </span>
-                  <div>
-                    <p className="text-xl font-semibold">{session.title}</p>
-                    <p className="mt-2 max-w-2xl text-muted-foreground text-pretty">
-                      {session.description}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
+        <CoverFlowCarousel
+          items={curriculum.map((session) => ({
+            index: session.order,
+            title: session.title,
+            description: session.description,
+          }))}
+        />
       </Section>
 
       <Section as="div" id="speaker-sphere" className="bg-muted/40">
