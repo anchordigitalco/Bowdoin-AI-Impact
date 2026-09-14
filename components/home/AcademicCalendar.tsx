@@ -150,17 +150,17 @@ export function AcademicCalendar() {
                   } ${cell.activeBreak ? "bg-gray-100" : ""}`}
                 >
                   <span
-                    className={`font-display text-xs ${
+                    className={`font-display ${
                       cell.isToday
-                        ? "flex h-5 w-5 items-center justify-center rounded-full bg-gray-900 text-white"
-                        : "text-gray-400"
+                        ? "flex h-6 w-6 items-center justify-center rounded-full bg-gray-900 text-[0.65rem] text-white"
+                        : "text-xs text-gray-400"
                     }`}
                   >
                     {cell.date.getDate()}
                   </span>
                   {cell.hasMeeting ? (
                     <span className="text-[0.62rem] leading-tight font-medium text-gray-900 sm:text-[0.68rem]">
-                      {cell.session ? `S${cell.session.order}: ${cell.session.title}` : "Meeting"}
+                      {cell.session ? `L${cell.session.order}: ${cell.session.title}` : "Meeting"}
                     </span>
                   ) : null}
                   {cell.breakStartsHere ? (
@@ -185,7 +185,7 @@ export function AcademicCalendar() {
                   <li key={c.iso} className="border-t border-gray-200 pt-3 text-sm">
                     <p className="font-medium text-gray-900">
                       {c.date.toLocaleDateString("en-US", { month: "short", day: "numeric" })} —{" "}
-                      {c.session ? `S${c.session.order}: ${c.session.title}` : "Meeting"}
+                      {c.session ? `L${c.session.order}: ${c.session.title}` : "Meeting"}
                     </p>
                     {c.session?.description ? (
                       <p className="mt-1 text-gray-500">{c.session.description}</p>
