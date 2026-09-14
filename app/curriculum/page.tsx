@@ -5,9 +5,21 @@ import { CoverFlowCarousel } from "@/components/ui/CoverFlowCarousel";
 import { MeetingBlock } from "@/components/home/MeetingBlock";
 import { ClosingCta } from "@/components/home/ClosingCta";
 import { curriculum } from "@/data/curriculum";
+import { scheduledMeetings } from "@/data/academicCalendar";
 import { contactEmail } from "@/data/links";
 
 export const metadata: Metadata = { title: "Curriculum" };
+
+// The real date each session is actually taught, from the same
+// schedule the home page calendar reads — not a separate guess.
+function dateForSession(order: number) {
+  const entry = scheduledMeetings.find((m) => m.sessionOrder === order);
+  if (!entry) return undefined;
+  return new Date(`${entry.date}T00:00:00`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+}
 
 export default function CurriculumPage() {
   return (
@@ -26,6 +38,7 @@ export default function CurriculumPage() {
             index: session.order,
             title: session.title,
             description: session.description,
+            date: dateForSession(session.order),
           }))}
         />
       </Section>

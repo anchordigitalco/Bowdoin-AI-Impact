@@ -38,6 +38,8 @@ export interface CoverFlowSlide {
   index: number;
   title: string;
   description?: string;
+  /** e.g. "Sep 14" — shown above the title, only when a real date exists. */
+  date?: string;
 }
 
 export interface CoverFlowCarouselProps {
@@ -240,6 +242,11 @@ export function CoverFlowCarousel({
                 className="transition-opacity duration-300"
                 style={{ opacity: isCenter ? 1 : 0, pointerEvents: isCenter ? "auto" : "none" }}
               >
+                {item.date ? (
+                  <p className="mb-1 font-mono text-xs tracking-[0.08em] text-muted-foreground uppercase">
+                    {item.date}
+                  </p>
+                ) : null}
                 <p className="text-xl font-semibold text-foreground">{item.title}</p>
                 {item.description ? (
                   <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
