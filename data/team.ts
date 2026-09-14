@@ -16,6 +16,7 @@ export const team: TeamMember[] = [
     group: "president",
     bio: "Jackson Bleecker is a junior from West Orange, New Jersey, studying Government and Legal Studies with a minor in Economics. He co-founded Anchor Digital, a digital strategy studio he runs with Adam Bello for small businesses and nonprofits, and using AI every day there is what got him into this. He wanted a place on campus where students got practical with these tools instead of only arguing about them. Outside of academics he plays for the men's basketball team and is always happy to talk to anyone thinking about starting something of their own.",
     linkedin: "https://www.linkedin.com/in/jackson-bleecker/",
+    photo: "/Team Photos/jackson-bleecker.png",
   },
   {
     slug: "henry-risch",
@@ -26,6 +27,7 @@ export const team: TeamMember[] = [
     group: "president",
     bio: "Henry Risch is a junior studying environmental studies and economics with a minor in government and legal studies. This past summer he was a fellow for the Hastings Initiative for AI and Humanity. That experience is what led him here, and he's now a student ambassador for the group. Outside of academics he's a captain for the track team and loves to hang out with friends.",
     linkedin: "https://www.linkedin.com/in/henry-risch-969052354/",
+    photo: "/Team Photos/henry photo.jpeg",
   },
   {
     slug: "hunter-fetterolf",
@@ -46,5 +48,6 @@ export const team: TeamMember[] = [
     group: "team",
     bio: "Adam Evans Bello is a junior from the Bronx, New York, studying Government and Legal Studies with a minor in Economics. He co-founded Anchor Digital, a digital strategy studio he runs with Jackson Bleecker for small businesses, nonprofits, and individuals, and using AI every day there is what got him into this. He has taken AI courses through Google, The Wharton School, and Anthropic, earning certifications in data analysis, marketing and finance, and AI fluency. He wanted a place on campus where students got practical with these tools instead of only arguing about them. Outside of academics he plays point guard for the men's basketball team and is always happy to talk to anyone thinking about starting something of their own.",
     linkedin: "https://www.linkedin.com/in/adam-bello-57067231a/",
+    photo: "/Team Photos/adam-bello.jpg",
   },
 ];

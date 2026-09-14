@@ -9,13 +9,21 @@ import { cn, initials } from "@/lib/utils";
 import type { TeamMember } from "@/lib/types";
 
 /**
- * No real headshots exist for anyone on the team yet, so "photo" here is
- * the same honest initials-avatar treatment used everywhere else on the
- * site (not a fabricated image of a real person) — just bigger, since
- * it's now the card's dominant visual element instead of a small badge
- * next to a row of text.
+ * Real headshots where they exist; the initials-avatar treatment used
+ * elsewhere on the site as an honest fallback where they don't (Hunter,
+ * for now) — never a fabricated image of a real person.
  */
-function MemberPhoto({ name, className }: { name: string; className: string }) {
+function MemberPhoto({ name, photo, className }: { name: string; photo?: string; className: string }) {
+  if (photo) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- fixed-size avatar crop, not worth next/image's responsive-srcset machinery
+      <img
+        src={photo}
+        alt=""
+        className={cn("shrink-0 rounded-full object-cover", className)}
+      />
+    );
+  }
   return (
     <div
       className={cn("flex shrink-0 items-center justify-center rounded-full bg-muted font-display", className)}
@@ -50,13 +58,11 @@ function MemberCard({ member, onOpen }: { member: TeamMember; onOpen: () => void
       // from growing the card past this height.
       className="group flex h-64 w-full cursor-pointer flex-col items-start gap-4 border border-border p-6 text-left transition-colors hover:border-foreground/40"
     >
-      <MemberPhoto name={member.name} className="h-20 w-20 text-2xl" />
+      <MemberPhoto name={member.name} photo={member.photo} className="h-20 w-20 text-2xl" />
       <div className="flex flex-1 flex-col">
         <p className="font-semibold text-foreground">{member.name}</p>
-        <p className="mt-1 line-clamp-3 text-sm text-muted-foreground">
-          {member.role}
-          {meta ? ` · ${meta}` : ""}
-        </p>
+        <p className="mt-1 text-sm text-muted-foreground">{member.role}</p>
+        {meta ? <p className="line-clamp-2 text-sm text-muted-foreground">{meta}</p> : null}
         {member.linkedin ? (
           <a
             href={member.linkedin}
@@ -118,7 +124,7 @@ function MemberDetail({ member, onClose }: { member: TeamMember; onClose: () => 
         </button>
 
         <div className="flex flex-col items-start gap-4 border-b border-border p-8 sm:w-72 sm:shrink-0 sm:border-r sm:border-b-0">
-          <MemberPhoto name={member.name} className="h-24 w-24 text-3xl sm:h-28 sm:w-28" />
+          <MemberPhoto name={member.name} photo={member.photo} className="h-24 w-24 text-3xl sm:h-28 sm:w-28" />
           <div>
             <p className="text-xl font-semibold text-foreground">{member.name}</p>
             <p className="mt-1 text-sm text-muted-foreground">{member.role}</p>

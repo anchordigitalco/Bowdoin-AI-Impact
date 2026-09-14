@@ -15,7 +15,7 @@ export default function TeamPage() {
   return (
     <>
       <Section as="div" id="team">
-        <PageIntro title="Who runs this">
+        <PageIntro title="Leadership Team">
           <p>
             Three co-presidents who use these tools daily and wanted a place on campus to figure
             them out together. Come say hi at a meeting or email us at{" "}
