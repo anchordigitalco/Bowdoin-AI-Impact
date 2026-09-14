@@ -100,16 +100,16 @@ export function AcademicCalendar() {
       <SectionHeading title="Meetings and Events" />
 
       <Reveal>
-        <div className="mb-10 flex flex-col gap-8 sm:mb-14 md:flex-row md:items-center md:justify-between md:gap-12">
+        <div className="mb-10 flex flex-col gap-6 sm:mb-14 md:flex-row md:items-center md:justify-between md:gap-12">
           <div>
-            <p className="font-display text-[clamp(1.5rem,4vw,3rem)] leading-[1.15] tracking-[-0.01em] text-balance">
+            <p className="mb-2 font-display text-xs leading-[1.3] tracking-[0.12em] text-muted-foreground uppercase">
+              Weekly Meeting Time
+            </p>
+            <p className="font-display text-xl leading-[1.25] tracking-[-0.01em] text-balance sm:text-2xl">
               {meeting.day}s, {meeting.displayTime}
             </p>
-            <p className="font-display text-[clamp(1.5rem,4vw,3rem)] leading-[1.15] tracking-[-0.01em] text-balance">
+            <p className="font-display text-xl leading-[1.25] tracking-[-0.01em] text-balance sm:text-2xl">
               {meeting.building}, {meeting.room}
-            </p>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Open to everyone. No experience needed, no application, no dues.
             </p>
           </div>
 
@@ -120,6 +120,9 @@ export function AcademicCalendar() {
         </div>
       </Reveal>
 
+      <p className="mb-3 font-display text-xs leading-[1.3] tracking-[0.12em] text-muted-foreground uppercase">
+        Club Calendar
+      </p>
       <div className="rounded-3xl bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.45)] sm:p-8">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
           <div className="w-full lg:flex-1">

@@ -3,8 +3,7 @@ import { Section, SectionHeading } from "@/components/ui/Section";
 import { PageIntro } from "@/components/ui/PageIntro";
 import { CoverFlowCarousel } from "@/components/ui/CoverFlowCarousel";
 import { SoftwarePerks } from "@/components/curriculum/SoftwarePerks";
-import { MeetingBlock } from "@/components/home/MeetingBlock";
-import { ClosingCta } from "@/components/home/ClosingCta";
+import { MeetingCta } from "@/components/home/MeetingCta";
 import { curriculum } from "@/data/curriculum";
 import { scheduledMeetings } from "@/data/academicCalendar";
 import { contactEmail } from "@/data/links";
@@ -69,8 +68,7 @@ export default function CurriculumPage() {
         <SoftwarePerks />
       </Section>
 
-      <MeetingBlock />
-      <ClosingCta />
+      <MeetingCta />
     </>
   );
 }

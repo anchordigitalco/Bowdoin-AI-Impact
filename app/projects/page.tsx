@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Section } from "@/components/ui/Section";
 import { PageIntro } from "@/components/ui/PageIntro";
-import { MeetingBlock } from "@/components/home/MeetingBlock";
-import { ClosingCta } from "@/components/home/ClosingCta";
+import { MeetingCta } from "@/components/home/MeetingCta";
 
 export const metadata: Metadata = { title: "Projects" };
 
@@ -42,8 +41,7 @@ export default function ProjectsPage() {
         </div>
       </Section>
 
-      <MeetingBlock />
-      <ClosingCta />
+      <MeetingCta />
     </>
   );
 }

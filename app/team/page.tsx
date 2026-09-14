@@ -1,66 +1,12 @@
 import type { Metadata } from "next";
-import { LinkedinIcon } from "@/components/ui/LinkedinIcon";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { PageIntro } from "@/components/ui/PageIntro";
-import { Reveal } from "@/components/ui/Reveal";
-import { MeetingBlock } from "@/components/home/MeetingBlock";
-import { ClosingCta } from "@/components/home/ClosingCta";
+import { TeamGrid } from "@/components/team/TeamGrid";
+import { MeetingCta } from "@/components/home/MeetingCta";
 import { team } from "@/data/team";
 import { contactEmail } from "@/data/links";
-import { initials } from "@/lib/utils";
-import type { TeamMember } from "@/lib/types";
 
 export const metadata: Metadata = { title: "Team" };
-
-function MemberList({ members }: { members: TeamMember[] }) {
-  return (
-    <ul className="space-y-10 sm:space-y-14">
-      {members.map((member, i) => {
-        const meta = [member.classYear, member.major].filter(Boolean).join(", ");
-        return (
-          <li key={member.slug} className="border-b border-border pb-10 last:border-0">
-            <Reveal delay={i * 60}>
-              <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
-                <div
-                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-muted font-display text-lg"
-                  aria-hidden="true"
-                >
-                  {initials(member.name)}
-                </div>
-                <div>
-                  <p className="text-xl font-semibold">{member.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {member.role}
-                    {meta ? ` · ${meta}` : ""}
-                  </p>
-                  <p className="mt-4 max-w-2xl text-muted-foreground text-pretty">
-                    {member.bio ?? "Bio coming soon."}
-                  </p>
-                  {member.linkedin ? (
-                    <a
-                      href={member.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${member.name} on LinkedIn`}
-                      // Monochrome at rest (site's black/white/gray rule);
-                      // on hover it tilts and switches to LinkedIn's own
-                      // brand blue — a deliberate, scoped exception for
-                      // referencing their actual mark, not decorative use
-                      // of blue elsewhere on the site.
-                      className="mt-4 inline-flex text-muted-foreground transition-[color,transform] duration-200 ease-out hover:-rotate-12 hover:text-[#0A66C2] hover:scale-110"
-                    >
-                      <LinkedinIcon className="h-5 w-5" />
-                    </a>
-                  ) : null}
-                </div>
-              </div>
-            </Reveal>
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
 
 export default function TeamPage() {
   const presidents = team.filter((m) => m.group === "president");
@@ -84,18 +30,17 @@ export default function TeamPage() {
         </PageIntro>
 
         <SectionHeading title="Presidents" className="mb-6 sm:mb-8" />
-        <MemberList members={presidents} />
+        <TeamGrid members={presidents} />
 
         {rest.length > 0 ? (
           <>
             <SectionHeading title="Team" className="mt-14 mb-6 sm:mt-20 sm:mb-8" />
-            <MemberList members={rest} />
+            <TeamGrid members={rest} />
           </>
         ) : null}
       </Section>
 
-      <MeetingBlock />
-      <ClosingCta />
+      <MeetingCta />
     </>
   );
 }
