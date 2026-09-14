@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { PageIntro } from "@/components/ui/PageIntro";
 import { CoverFlowCarousel } from "@/components/ui/CoverFlowCarousel";
+import { SoftwarePerks } from "@/components/curriculum/SoftwarePerks";
 import { MeetingBlock } from "@/components/home/MeetingBlock";
 import { ClosingCta } from "@/components/home/ClosingCta";
 import { curriculum } from "@/data/curriculum";
@@ -58,6 +59,14 @@ export default function CurriculumPage() {
           </a>
           .
         </p>
+      </Section>
+
+      <Section as="div" id="software-perks">
+        <SectionHeading
+          title="Free for members"
+          description="Software the club gives every member access to at no cost."
+        />
+        <SoftwarePerks />
       </Section>
 
       <MeetingBlock />
