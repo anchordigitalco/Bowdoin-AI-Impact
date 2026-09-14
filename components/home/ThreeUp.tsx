@@ -1,5 +1,5 @@
 import { Briefcase, GraduationCap, Rocket } from "lucide-react";
-import { Section } from "@/components/ui/Section";
+import { Section, SectionHeading } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 
 const points = [
@@ -22,9 +22,16 @@ const points = [
   },
 ] as const;
 
+// Carries the "What this club is" heading/intro — previously its own
+// section with a two-card grid (Teaching meetings / Build meetings)
+// above this one, now folded into one box.
 export function ThreeUp() {
   return (
-    <Section as="section" id="why-join" className="bg-muted/40">
+    <Section as="section" id="why-join" className="rounded-3xl bg-muted/40">
+      <SectionHeading
+        title="What this club is"
+        description="Most of what students hear about AI is either hype or panic. We do neither. Every meeting gives you something you can use the next day, whether that is a workflow for your job search, a clearer sense of what these tools get wrong, or a project you built yourself."
+      />
       <ul className="grid gap-8 sm:grid-cols-3">
         {points.map((point, i) => (
           <li key={point.title}>

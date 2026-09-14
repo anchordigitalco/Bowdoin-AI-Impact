@@ -27,10 +27,8 @@ export default function CurriculumPage() {
       <Section as="div" id="curriculum" className="pt-6 sm:pt-10">
         <PageIntro title="Our Curriculum">
           <p>
-            Teaching meetings run a 30-minute block on one topic, then open discussion. Seven
-            sessions this semester, mixing how AI is changing the work you&rsquo;re heading into
-            with the skills to use it without getting burned. You do not need to attend in order,
-            and nothing here assumes a technical background.
+            Seven sessions, each a 30-minute block plus discussion. No order required, no
+            technical background assumed.
           </p>
         </PageIntro>
         <CoverFlowCarousel

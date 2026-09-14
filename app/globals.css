@@ -230,6 +230,19 @@
   }
 }
 
+/* Entrance keyframes for the illuminated-glow quote treatment
+   (components/home/HeroQuote.tsx) — a one-time fade/settle on load, not
+   a loop, so no separate reduced-motion handling is needed: the
+   blanket rule below already collapses these to ~instant. */
+@keyframes onloadopacity {
+  24% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
