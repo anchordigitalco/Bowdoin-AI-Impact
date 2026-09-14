@@ -6,15 +6,21 @@ interface CardProps {
   children: ReactNode;
 }
 
+/**
+ * A hairline-rule entry, not a boxed drop-shadow card. The default
+ * rounded-xl + soft-shadow + full-border treatment is the single most
+ * common "AI template" tell — this instead reads as a line in a spec
+ * sheet or field-notes dossier: a top rule that brightens on hover, no
+ * radius, no shadow, no box. Blue stays reserved for buttons per the
+ * site's color rule, so the hover state moves toward foreground (white),
+ * never primary.
+ */
 export function Card({ className, children }: CardProps) {
   return (
     <div
       className={cn(
-        "group relative flex h-full flex-col rounded-[var(--radius)] border border-border bg-card p-6 text-card-foreground",
-        "transition-[transform,box-shadow,border-color] duration-200 motion-safe:hover:-translate-y-0.5 hover:border-foreground/20",
-        // Resting shadow is the theme's --shadow token; hover just pushes
-        // the same color/opacity out further for more depth.
-        "shadow-[var(--shadow)] hover:shadow-[0_16px_32px_hsl(var(--shadow-color)/var(--shadow-opacity))]",
+        "group relative flex h-full flex-col border-t border-border pt-6",
+        "transition-colors duration-200 hover:border-foreground/40",
         className
       )}
     >
@@ -25,7 +31,7 @@ export function Card({ className, children }: CardProps) {
 
 export function CardEyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="mb-2 font-display text-xs leading-[1.3] tracking-[0.12em] text-muted-foreground uppercase">
+    <p className="mb-2 font-display text-xs leading-[1.3] tracking-[0.12em] text-muted-foreground uppercase transition-colors duration-200 group-hover:text-foreground">
       {children}
     </p>
   );

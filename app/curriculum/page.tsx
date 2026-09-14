@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { PageIntro } from "@/components/ui/PageIntro";
-import { Card, CardEyebrow, CardTitle, CardDescription } from "@/components/ui/Card";
+import { Reveal } from "@/components/ui/Reveal";
 import { MeetingBlock } from "@/components/home/MeetingBlock";
 import { ClosingCta } from "@/components/home/ClosingCta";
 import { curriculum } from "@/data/curriculum";
@@ -21,14 +21,29 @@ export default function CurriculumPage() {
             and nothing here assumes a technical background.
           </p>
         </PageIntro>
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {curriculum.map((session) => (
+        {/* A numbered row-list rather than a card grid — seven items
+            doesn't divide evenly into three columns, so a grid always
+            leaves an orphaned card in the last row. This also reads more
+            like a real syllabus than a feature-grid template. */}
+        <ul className="divide-y divide-border border-t border-border">
+          {curriculum.map((session, i) => (
             <li key={session.order}>
-              <Card>
-                <CardEyebrow>{String(session.order).padStart(2, "0")}</CardEyebrow>
-                <CardTitle>{session.title}</CardTitle>
-                <CardDescription>{session.description}</CardDescription>
-              </Card>
+              <Reveal delay={Math.min(i, 6) * 50}>
+                <div className="flex flex-col gap-2 py-8 sm:flex-row sm:items-baseline sm:gap-10">
+                  <span
+                    className="font-display text-2xl text-muted-foreground/50 sm:w-14 sm:shrink-0"
+                    aria-hidden="true"
+                  >
+                    {String(session.order).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <p className="text-xl font-semibold">{session.title}</p>
+                    <p className="mt-2 max-w-2xl text-muted-foreground text-pretty">
+                      {session.description}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
             </li>
           ))}
         </ul>

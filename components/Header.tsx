@@ -72,10 +72,10 @@ export function Header() {
   }, [open]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="fixed inset-x-0 top-0 z-[var(--z-header)]">
       <a
         href="#main-content"
-        className="sr-only-focusable fixed top-2 left-2 z-[100] rounded-[var(--radius)] bg-primary font-semibold text-primary-foreground"
+        className="sr-only-focusable fixed top-2 left-2 z-[var(--z-overlay)] rounded-[var(--radius)] bg-primary font-semibold text-primary-foreground"
       >
         Skip to content
       </a>
@@ -163,7 +163,7 @@ export function Header() {
               role="dialog"
               aria-modal="true"
               aria-label="Site menu"
-              className="fixed inset-0 z-[100] flex flex-col bg-background md:hidden"
+              className="fixed inset-0 z-[var(--z-overlay)] flex flex-col bg-background md:hidden"
             >
               <div className="flex h-18 w-full items-center justify-between px-6">
                 <span className="font-display text-base">{siteName}</span>

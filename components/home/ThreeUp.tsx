@@ -1,5 +1,6 @@
 import { Briefcase, GraduationCap, Rocket } from "lucide-react";
 import { Section } from "@/components/ui/Section";
+import { Reveal } from "@/components/ui/Reveal";
 
 const points = [
   {
@@ -25,11 +26,15 @@ export function ThreeUp() {
   return (
     <Section as="section" id="why-join" className="bg-muted/40">
       <ul className="grid gap-8 sm:grid-cols-3">
-        {points.map((point) => (
-          <li key={point.title} className="flex flex-col items-start gap-3">
-            <point.icon className="h-6 w-6 text-foreground" aria-hidden="true" />
-            <p className="text-lg font-semibold text-balance">{point.title}</p>
-            <p className="text-muted-foreground text-pretty">{point.description}</p>
+        {points.map((point, i) => (
+          <li key={point.title}>
+            <Reveal delay={i * 60}>
+              <div className="flex flex-col items-start gap-3 border-t border-border pt-6">
+                <point.icon className="h-6 w-6 text-foreground" aria-hidden="true" />
+                <p className="text-lg font-semibold text-balance">{point.title}</p>
+                <p className="text-muted-foreground text-pretty">{point.description}</p>
+              </div>
+            </Reveal>
           </li>
         ))}
       </ul>

@@ -5,8 +5,11 @@ import { cn } from "@/lib/utils";
 type Variant = "primary" | "outline" | "ghost" | "link";
 type Size = "default" | "lg" | "sm";
 
+// transform is its own transition (separate from the color one below) so
+// the press feedback stays snappy even when a variant's color transition
+// runs at a different duration.
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-[var(--radius)] font-semibold transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-[var(--radius)] font-semibold transition-[background-color,border-color,color,transform] duration-150 ease-out active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
   // --primary-foreground is tuned per theme/mode for AA contrast on

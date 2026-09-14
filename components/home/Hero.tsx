@@ -90,7 +90,7 @@ export function Hero() {
       // Cancels <main>'s top padding (reserved for the now-fixed header)
       // so the video still bleeds all the way up to the real top edge —
       // the floating header pills sit directly on top of it, not above it.
-      className="relative -mt-24 h-[100svh] min-h-[640px] w-full overflow-hidden"
+      className="relative -mt-[var(--header-height)] h-[100svh] min-h-[640px] w-full overflow-hidden"
     >
       <div data-parallax-layer="video" className="absolute inset-0">
         {/* object-cover alone already shows the full frame at most

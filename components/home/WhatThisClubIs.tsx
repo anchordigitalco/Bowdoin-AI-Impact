@@ -1,5 +1,6 @@
 import { Section, SectionHeading } from "@/components/ui/Section";
-import { Card, CardEyebrow, CardTitle, CardDescription } from "@/components/ui/Card";
+import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
+import { Reveal } from "@/components/ui/Reveal";
 
 const meetingTypes = [
   {
@@ -24,13 +25,23 @@ export function WhatThisClubIs() {
         description="Most of what students hear about AI is either hype or panic. We do neither. Every meeting gives you something you can use the next day, whether that is a workflow for your job search, a clearer sense of what these tools get wrong, or a project you built yourself."
       />
       <ul className="grid gap-6 sm:grid-cols-2">
-        {meetingTypes.map((type) => (
+        {meetingTypes.map((type, i) => (
           <li key={type.title}>
-            <Card>
-              <CardEyebrow>{type.number}</CardEyebrow>
-              <CardTitle>{type.title}</CardTitle>
-              <CardDescription>{type.description}</CardDescription>
-            </Card>
+            <Reveal delay={i * 80}>
+              <Card>
+                {/* A real, large numeral rather than a small-caps eyebrow —
+                    there are genuinely only two kinds of meetings, so the
+                    number carries weight instead of being decoration. */}
+                <span
+                  className="mb-4 block font-display text-4xl text-muted-foreground/50 sm:text-5xl"
+                  aria-hidden="true"
+                >
+                  {type.number}
+                </span>
+                <CardTitle>{type.title}</CardTitle>
+                <CardDescription>{type.description}</CardDescription>
+              </Card>
+            </Reveal>
           </li>
         ))}
       </ul>

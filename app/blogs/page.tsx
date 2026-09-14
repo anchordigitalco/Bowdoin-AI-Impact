@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { PageIntro } from "@/components/ui/PageIntro";
 import { Card, CardEyebrow, CardTitle, CardDescription } from "@/components/ui/Card";
+import { Reveal } from "@/components/ui/Reveal";
 import { getAllPosts } from "@/lib/posts";
 import { formatDate } from "@/lib/utils";
 
@@ -26,24 +27,39 @@ export default function BlogPage() {
         </PageIntro>
 
         {posts.length === 0 ? (
-          <p className="text-lg text-muted-foreground">First posts are coming soon.</p>
+          <div className="flex items-start gap-3 border-t border-border pt-6">
+            <span
+              className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-muted-foreground/50"
+              aria-hidden="true"
+            />
+            <div>
+              <p className="font-mono text-xs tracking-[0.1em] text-muted-foreground uppercase">
+                Status: coming soon
+              </p>
+              <p className="mt-2 text-lg text-muted-foreground">
+                First posts are coming soon.
+              </p>
+            </div>
+          </div>
         ) : null}
       </Section>
 
       {posts.length > 0 ? (
         <Section as="div" id="blog-posts">
           <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => (
+            {posts.map((post, i) => (
               <li key={post.slug}>
-                <Link href={`/blogs/${post.slug}`} className="block h-full">
-                  <Card>
-                    <CardEyebrow>
-                      {formatDate(post.date)} · {post.author}
-                    </CardEyebrow>
-                    <CardTitle>{post.title}</CardTitle>
-                    <CardDescription>{post.excerpt}</CardDescription>
-                  </Card>
-                </Link>
+                <Reveal delay={i * 60}>
+                  <Link href={`/blogs/${post.slug}`} className="block h-full">
+                    <Card>
+                      <CardEyebrow>
+                        {formatDate(post.date)} · {post.author}
+                      </CardEyebrow>
+                      <CardTitle>{post.title}</CardTitle>
+                      <CardDescription>{post.excerpt}</CardDescription>
+                    </Card>
+                  </Link>
+                </Reveal>
               </li>
             ))}
           </ul>

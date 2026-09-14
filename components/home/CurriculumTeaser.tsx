@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Section, SectionHeading } from "@/components/ui/Section";
-import { Card, CardEyebrow, CardTitle, CardDescription } from "@/components/ui/Card";
+import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
+import { Reveal } from "@/components/ui/Reveal";
 import { curriculum } from "@/data/curriculum";
 
 export function CurriculumTeaser() {
@@ -14,13 +15,20 @@ export function CurriculumTeaser() {
         description="Seven sessions on how AI is changing the work you are heading into and the skills you need to use it well."
       />
       <ul className="grid gap-6 sm:grid-cols-3">
-        {preview.map((session) => (
+        {preview.map((session, i) => (
           <li key={session.order}>
-            <Card>
-              <CardEyebrow>{String(session.order).padStart(2, "0")}</CardEyebrow>
-              <CardTitle>{session.title}</CardTitle>
-              <CardDescription>{session.description}</CardDescription>
-            </Card>
+            <Reveal delay={i * 60}>
+              <Card>
+                <span
+                  className="mb-4 block font-display text-4xl text-muted-foreground/50"
+                  aria-hidden="true"
+                >
+                  {String(session.order).padStart(2, "0")}
+                </span>
+                <CardTitle>{session.title}</CardTitle>
+                <CardDescription>{session.description}</CardDescription>
+              </Card>
+            </Reveal>
           </li>
         ))}
       </ul>

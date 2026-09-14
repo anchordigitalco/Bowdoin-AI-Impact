@@ -46,7 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             page's Hero cancels it with a matching negative margin so its
             video still bleeds up to the real top edge, right behind the
             floating pills. */}
-        <main id="main-content" className="flex-1 pt-24">
+        <main id="main-content" className="flex-1 pt-[var(--header-height)]">
           {children}
         </main>
         <Footer />

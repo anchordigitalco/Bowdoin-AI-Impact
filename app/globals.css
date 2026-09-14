@@ -65,6 +65,24 @@
   --sidebar-primary-foreground: hsl(222.2, 84%, 4.9%);
   --shadow: var(--shadow-offset-x) var(--shadow-offset-y) var(--shadow-blur)
     var(--shadow-spread) hsl(var(--shadow-color) / var(--shadow-opacity));
+
+  /* Engineering tokens — real values other CSS/Tailwind arbitrary-value
+   * classes compose from, instead of restating the same magic number in
+   * multiple places until it drifts out of sync.
+   *
+   * --header-height: the floating header's approximate footprint. `main`
+   * pads by this much (see app/layout.tsx) since the header is `fixed`
+   * and no longer reserves its own space in flow; the home page's Hero
+   * cancels that same padding with a matching negative margin so its
+   * video still bleeds to the real top edge. Also drives
+   * scroll-padding-top below.
+   *
+   * --z-*: a real ordered scale instead of ad hoc one-off numbers
+   * (z-50 next to z-[100] next to z-[9999]).
+   */
+  --header-height: 6rem;
+  --z-header: 50;
+  --z-overlay: 100;
 }
 
 @theme inline {
@@ -147,12 +165,23 @@
 
   html {
     color-scheme: dark;
+    scroll-behavior: smooth;
+    /* Keeps an anchor target from hiding under the fixed header. */
+    scroll-padding-top: var(--header-height);
   }
 
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     letter-spacing: var(--letter-spacing);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Deliberate tap feedback instead of the OS default flash — buttons
+     and links get their own :active state instead (see Button.tsx). */
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 
   /* Visible, high-contrast focus ring for keyboard users on every
