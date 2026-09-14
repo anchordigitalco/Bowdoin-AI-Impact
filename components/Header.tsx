@@ -115,8 +115,18 @@ export function Header() {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }
           }}
-          className="inline-flex h-10 items-center whitespace-nowrap rounded-full border border-white/10 bg-black px-4 font-display text-sm tracking-tight text-white transition-colors hover:bg-white hover:text-black sm:h-11 sm:px-5 sm:text-base md:justify-self-start"
+          className="inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-black pr-4 pl-1.5 font-display text-sm tracking-tight text-white transition-colors hover:bg-white hover:text-black sm:h-11 sm:gap-2.5 sm:pr-5 sm:pl-2 sm:text-base md:justify-self-start"
         >
+          {/* Own opaque white background baked into the SVG, plus a hairline
+              ring — so the mark stays legible whether the pill is its
+              resting black or its hover-inverted white. */}
+          {/* eslint-disable-next-line @next/next/no-img-element -- decorative brand mark, fixed size, not worth next/image's responsive-srcset machinery */}
+          <img
+            src="/AI-Impact-Icon.svg"
+            alt=""
+            aria-hidden="true"
+            className="h-7 w-7 shrink-0 rounded-full ring-1 ring-black/10 sm:h-8 sm:w-8"
+          />
           {siteName}
         </Link>
 
@@ -176,7 +186,16 @@ export function Header() {
               className="fixed inset-0 z-[var(--z-overlay)] flex flex-col bg-background md:hidden"
             >
               <div className="flex h-18 w-full items-center justify-between px-6">
-                <span className="font-display text-base">{siteName}</span>
+                <span className="inline-flex items-center gap-2 font-display text-base">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- decorative brand mark, fixed size, not worth next/image's responsive-srcset machinery */}
+                  <img
+                    src="/AI-Impact-Icon.svg"
+                    alt=""
+                    aria-hidden="true"
+                    className="h-7 w-7 shrink-0 rounded-full ring-1 ring-white/10"
+                  />
+                  {siteName}
+                </span>
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
