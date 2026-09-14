@@ -8,7 +8,7 @@ export const externalLinks = {
   groupChat: "#TODO-group-chat-invite-link",
   instagram: "#TODO-instagram-url",
   /** Footer credit link — Jackson's Anchor Digital, which built this site. */
-  anchorDigital: "#TODO-anchor-digital-url",
+  anchorDigital: "https://anchordigitalco.com",
 };
 
 // Real, not a placeholder — update if the club's contact address changes.

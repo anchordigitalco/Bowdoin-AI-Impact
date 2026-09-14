@@ -42,15 +42,32 @@ export function Footer() {
           </a>
         </p>
 
-        {/* No mark yet — the Anchor Digital SVG hasn't been added to the
-            repo, so this is text-only for now. Swap in the logo once it's
-            supplied. */}
+        {/* Anchor Digital's own credit tag — icon (masked so it follows
+            text color/hover, same asset as their real site's mark) next
+            to their tracked-out monospace wordmark, matching how they tag
+            every site they build. Since Footer is rendered once from the
+            root layout, this appears on every page automatically. */}
         <a
           href={externalLinks.anchorDigital}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-foreground"
+          className="inline-flex shrink-0 items-center gap-2 font-mono text-xs whitespace-nowrap tracking-[0.15em] text-muted-foreground uppercase hover:text-foreground"
         >
+          <span
+            aria-hidden="true"
+            className="h-4 shrink-0 bg-current"
+            style={{
+              aspectRatio: "240 / 127",
+              WebkitMaskImage: "url(/anchor-digital-icon.png)",
+              maskImage: "url(/anchor-digital-icon.png)",
+              WebkitMaskSize: "contain",
+              maskSize: "contain",
+              WebkitMaskRepeat: "no-repeat",
+              maskRepeat: "no-repeat",
+              WebkitMaskPosition: "center",
+              maskPosition: "center",
+            }}
+          />
           Built by Anchor Digital
         </a>
       </div>
