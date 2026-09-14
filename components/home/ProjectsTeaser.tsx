@@ -5,7 +5,7 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export function ProjectsTeaser() {
   return (
-    <Section as="section" id="projects-preview" className="bg-muted/40">
+    <Section as="section" id="projects-preview" className="rounded-3xl bg-muted/40">
       <SectionHeading
         title="Our Projects"
         description="Build meetings turn into real things. Here is what has come out of them so far."
