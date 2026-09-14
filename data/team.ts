@@ -1,8 +1,6 @@
-// Presidents section: the club's three co-presidents. Bios are from the
-// site copy deck, rewritten to third person (facts unchanged). Hunter's
-// isn't written yet — the deck's own placeholder for him is a
-// fill-in-the-blank template that isn't meant to go on the live page, so
-// his entry omits bio/classYear/major until he sends real text.
+// Presidents section: the club's three co-presidents. All bios are
+// written/rewritten to third person for a consistent voice across the
+// page (facts unchanged from what each person sent).
 //
 // Team section: everyone else.
 
@@ -30,9 +28,11 @@ export const team: TeamMember[] = [
   {
     slug: "hunter-fetterolf",
     name: "Hunter Fetterolf",
+    classYear: "Junior",
+    major: "Math and Economics, minor in Computer Science",
     role: "Co-President",
     group: "president",
-    // bio intentionally omitted — see note above.
+    bio: "Hunter Fetterolf is a junior at Bowdoin College double majoring in Math and Economics with a Computer Science minor, and a member of the hockey team. He was first captivated by how AI was influencing geopolitics, and that got him into learning everything he could about the technology. Today, he is largely focused on AI from an investing and economic perspective while also using technical skills to build agents and tools that solve real problems. His goal is to help prepare others for life after college in a world of AI, where they will have extraordinary potential through the combination of AI skills and a Bowdoin education.",
   },
   {
     slug: "adam-bello",
