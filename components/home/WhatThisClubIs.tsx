@@ -1,16 +1,17 @@
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Reveal } from "@/components/ui/Reveal";
+import { CountUp } from "@/components/ui/CountUp";
 
 const meetingTypes = [
   {
-    number: "01",
+    order: 1,
     title: "Teaching meetings",
     description:
       "A 30-minute block on one topic, then discussion. Career sessions and skills sessions alternate week to week.",
   },
   {
-    number: "02",
+    order: 2,
     title: "Build meetings",
     description:
       "Work time. You bring an idea or join someone else's, and we ship something small enough to finish.",
@@ -32,12 +33,11 @@ export function WhatThisClubIs() {
                 {/* A real, large numeral rather than a small-caps eyebrow —
                     there are genuinely only two kinds of meetings, so the
                     number carries weight instead of being decoration. */}
-                <span
+                <CountUp
+                  to={type.order}
+                  padTo={2}
                   className="mb-4 block font-display text-4xl text-muted-foreground/50 sm:text-5xl"
-                  aria-hidden="true"
-                >
-                  {type.number}
-                </span>
+                />
                 <CardTitle>{type.title}</CardTitle>
                 <CardDescription>{type.description}</CardDescription>
               </Card>

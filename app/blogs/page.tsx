@@ -28,10 +28,10 @@ export default function BlogPage() {
 
         {posts.length === 0 ? (
           <div className="flex items-start gap-3 border-t border-border pt-6">
-            <span
-              className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-muted-foreground/50"
-              aria-hidden="true"
-            />
+            <span className="relative mt-1.5 flex h-2 w-2 shrink-0" aria-hidden="true">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-muted-foreground/40" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-muted-foreground/70" />
+            </span>
             <div>
               <p className="font-mono text-xs tracking-[0.1em] text-muted-foreground uppercase">
                 Status: coming soon

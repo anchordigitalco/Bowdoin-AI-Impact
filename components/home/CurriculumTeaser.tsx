@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Reveal } from "@/components/ui/Reveal";
+import { CountUp } from "@/components/ui/CountUp";
 import { curriculum } from "@/data/curriculum";
 
 export function CurriculumTeaser() {
@@ -19,12 +20,11 @@ export function CurriculumTeaser() {
           <li key={session.order}>
             <Reveal delay={i * 60}>
               <Card>
-                <span
+                <CountUp
+                  to={session.order}
+                  padTo={2}
                   className="mb-4 block font-display text-4xl text-muted-foreground/50"
-                  aria-hidden="true"
-                >
-                  {String(session.order).padStart(2, "0")}
-                </span>
+                />
                 <CardTitle>{session.title}</CardTitle>
                 <CardDescription>{session.description}</CardDescription>
               </Card>
@@ -34,9 +34,13 @@ export function CurriculumTeaser() {
       </ul>
       <Link
         href="/curriculum"
-        className="mt-8 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground"
+        className="group mt-8 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground"
       >
-        See the full curriculum <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        See the full curriculum
+        <ArrowRight
+          className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1"
+          aria-hidden="true"
+        />
       </Link>
     </Section>
   );

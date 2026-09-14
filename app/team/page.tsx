@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LinkedinIcon } from "@/components/ui/LinkedinIcon";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { PageIntro } from "@/components/ui/PageIntro";
 import { Reveal } from "@/components/ui/Reveal";
@@ -35,6 +36,22 @@ function MemberList({ members }: { members: TeamMember[] }) {
                   <p className="mt-4 max-w-2xl text-muted-foreground text-pretty">
                     {member.bio ?? "Bio coming soon."}
                   </p>
+                  {member.linkedin ? (
+                    <a
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${member.name} on LinkedIn`}
+                      // Monochrome at rest (site's black/white/gray rule);
+                      // on hover it tilts and switches to LinkedIn's own
+                      // brand blue — a deliberate, scoped exception for
+                      // referencing their actual mark, not decorative use
+                      // of blue elsewhere on the site.
+                      className="mt-4 inline-flex text-muted-foreground transition-[color,transform] duration-200 ease-out hover:-rotate-12 hover:text-[#0A66C2] hover:scale-110"
+                    >
+                      <LinkedinIcon className="h-5 w-5" />
+                    </a>
+                  ) : null}
                 </div>
               </div>
             </Reveal>

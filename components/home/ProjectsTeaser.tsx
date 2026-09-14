@@ -16,10 +16,13 @@ export function ProjectsTeaser() {
           reads as a real system state, not filler copy. */}
       <Reveal>
         <div className="flex items-start gap-3 border-t border-border pt-6">
-          <span
-            className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-muted-foreground/50"
-            aria-hidden="true"
-          />
+          {/* A real "live" indicator — ping ring + solid dot — rather than
+              a static bullet, since "in progress" is an actual ongoing
+              state, not decoration. */}
+          <span className="relative mt-1.5 flex h-2 w-2 shrink-0" aria-hidden="true">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-muted-foreground/40" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-muted-foreground/70" />
+          </span>
           <div>
             <p className="font-mono text-xs tracking-[0.1em] text-muted-foreground uppercase">
               Status: in progress
@@ -33,9 +36,13 @@ export function ProjectsTeaser() {
       </Reveal>
       <Link
         href="/projects"
-        className="mt-8 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground"
+        className="group mt-8 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground"
       >
-        See all projects <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        See all projects
+        <ArrowRight
+          className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1"
+          aria-hidden="true"
+        />
       </Link>
     </Section>
   );
