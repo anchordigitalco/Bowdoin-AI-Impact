@@ -1,9 +1,6 @@
-import { CalendarPlus } from "lucide-react";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Reveal } from "@/components/ui/Reveal";
-import { Button } from "@/components/ui/Button";
-import { meeting } from "@/data/meeting";
 
 const meetingTypes = [
   {
@@ -20,11 +17,6 @@ const meetingTypes = [
   },
 ] as const;
 
-// On Home, the meeting time/place lives inside this section instead of
-// its own standalone block — the "what this club is" pitch and "when/
-// where to show up" belong together as one read. MeetingBlock itself
-// stays a separate reusable component for Curriculum/Projects/Team,
-// where there's no "What this club is" section to fold it into.
 export function WhatThisClubIs() {
   return (
     <Section as="section" id="about">
@@ -53,27 +45,6 @@ export function WhatThisClubIs() {
           </li>
         ))}
       </ul>
-
-      <Reveal delay={160}>
-        <div className="mt-14 flex flex-col gap-8 border-t border-border pt-10 sm:mt-20 md:flex-row md:items-center md:justify-between md:gap-12">
-          <div>
-            <p className="font-display text-[clamp(1.5rem,4vw,3rem)] leading-[1.15] tracking-[-0.01em] text-balance">
-              {meeting.day}s, {meeting.displayTime}
-            </p>
-            <p className="font-display text-[clamp(1.5rem,4vw,3rem)] leading-[1.15] tracking-[-0.01em] text-balance">
-              {meeting.building}, {meeting.room}
-            </p>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Open to everyone. No experience needed, no application, no dues.
-            </p>
-          </div>
-
-          <Button href="/meeting.ics" size="lg" className="w-full md:w-auto">
-            <CalendarPlus className="h-5 w-5" aria-hidden="true" />
-            Add to calendar
-          </Button>
-        </div>
-      </Reveal>
     </Section>
   );
 }

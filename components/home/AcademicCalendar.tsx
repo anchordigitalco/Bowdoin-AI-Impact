@@ -1,8 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { CalendarPlus, ChevronLeft, ChevronRight } from "lucide-react";
 import { Section, SectionHeading } from "@/components/ui/Section";
+import { Button } from "@/components/ui/Button";
+import { Reveal } from "@/components/ui/Reveal";
 import { academicBreaks, scheduledMeetings } from "@/data/academicCalendar";
 import { curriculum } from "@/data/curriculum";
 import { meeting } from "@/data/meeting";
@@ -26,18 +28,19 @@ function sessionFor(order: number | undefined) {
 }
 
 /**
- * A read-only month calendar for the club's real Monday meetings and
- * Bowdoin's real breaks — not a full event manager (no create/edit/
+ * "Meetings and Events" — the recurring meeting time/place, and below
+ * it a read-only month calendar for the club's real Monday meetings
+ * and Bowdoin's real breaks. Not a full event manager (no create/edit/
  * delete UI, since any visitor-added "event" would only live in that
  * one visitor's browser tab and vanish on refresh — meaningless on a
- * static site with no backend). All dates come from
+ * static site with no backend). All calendar dates come from
  * data/academicCalendar.ts, sourced from Bowdoin's official calendar.
  *
- * Deliberately a white card on the dark page (not the site's usual
- * dark/hairline surface) — every color below is an explicit gray-scale
- * value rather than the theme's dark-tuned tokens (--foreground,
- * --border, etc.), since those would be invisible or low-contrast on a
- * white background.
+ * The calendar itself is deliberately a white card on the dark page
+ * (not the site's usual dark/hairline surface) — every color inside it
+ * is an explicit gray-scale value rather than the theme's dark-tuned
+ * tokens (--foreground, --border, etc.), since those would be invisible
+ * or low-contrast on a white background.
  */
 export function AcademicCalendar() {
   // Starts on the first scheduled meeting's month rather than today's,
@@ -94,10 +97,28 @@ export function AcademicCalendar() {
 
   return (
     <Section as="section" id="calendar">
-      <SectionHeading
-        title="The semester at a glance"
-        description="Every meeting labeled with what it covers, plus Bowdoin's real fall, Thanksgiving, winter, and spring breaks — nothing here is a placeholder date."
-      />
+      <SectionHeading title="Meetings and Events" />
+
+      <Reveal>
+        <div className="mb-10 flex flex-col gap-8 sm:mb-14 md:flex-row md:items-center md:justify-between md:gap-12">
+          <div>
+            <p className="font-display text-[clamp(1.5rem,4vw,3rem)] leading-[1.15] tracking-[-0.01em] text-balance">
+              {meeting.day}s, {meeting.displayTime}
+            </p>
+            <p className="font-display text-[clamp(1.5rem,4vw,3rem)] leading-[1.15] tracking-[-0.01em] text-balance">
+              {meeting.building}, {meeting.room}
+            </p>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Open to everyone. No experience needed, no application, no dues.
+            </p>
+          </div>
+
+          <Button href="/meeting.ics" size="lg" className="w-full md:w-auto">
+            <CalendarPlus className="h-5 w-5" aria-hidden="true" />
+            Add to calendar
+          </Button>
+        </div>
+      </Reveal>
 
       <div className="rounded-3xl bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.45)] sm:p-8">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
