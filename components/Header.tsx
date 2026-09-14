@@ -9,6 +9,7 @@ import { navLinks, joinHref } from "@/data/nav";
 import { siteName } from "@/data/site";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
+import { LogoMark } from "@/components/ui/LogoMark";
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
@@ -115,18 +116,13 @@ export function Header() {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }
           }}
-          className="inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-black pr-4 pl-1.5 font-display text-sm tracking-tight text-white transition-colors hover:bg-white hover:text-black sm:h-11 sm:gap-2.5 sm:pr-5 sm:pl-2 sm:text-base md:justify-self-start"
+          className="inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-black px-4 font-display text-sm tracking-tight text-white transition-colors [--logo-fg:white] [--logo-bg:black] hover:bg-white hover:text-black hover:[--logo-fg:black] hover:[--logo-bg:white] sm:h-11 sm:gap-2.5 sm:px-5 sm:text-base md:justify-self-start"
         >
-          {/* Own opaque white background baked into the SVG, plus a hairline
-              ring — so the mark stays legible whether the pill is its
-              resting black or its hover-inverted white. */}
-          {/* eslint-disable-next-line @next/next/no-img-element -- decorative brand mark, fixed size, not worth next/image's responsive-srcset machinery */}
-          <img
-            src="/AI-Impact-Icon.svg"
-            alt=""
-            aria-hidden="true"
-            className="h-7 w-7 shrink-0 rounded-full ring-1 ring-black/10 sm:h-8 sm:w-8"
-          />
+          {/* Tied to the same hover flip as the pill itself (via the
+              --logo-fg/--logo-bg custom properties LogoMark reads) so the
+              mark is always the same two colors as the pill, not a fixed
+              badge sitting on top of it. */}
+          <LogoMark className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
           {siteName}
         </Link>
 
@@ -187,13 +183,10 @@ export function Header() {
             >
               <div className="flex h-18 w-full items-center justify-between px-6">
                 <span className="inline-flex items-center gap-2 font-display text-base">
-                  {/* eslint-disable-next-line @next/next/no-img-element -- decorative brand mark, fixed size, not worth next/image's responsive-srcset machinery */}
-                  <img
-                    src="/AI-Impact-Icon.svg"
-                    alt=""
-                    aria-hidden="true"
-                    className="h-7 w-7 shrink-0 rounded-full ring-1 ring-white/10"
-                  />
+                  {/* Defaults are enough here: currentColor for the ink
+                      (matches this text), --background for the gaps (this
+                      overlay's own solid bg) — no hover state to track. */}
+                  <LogoMark className="h-6 w-6 shrink-0" />
                   {siteName}
                 </span>
                 <button

@@ -1,6 +1,7 @@
 import { meeting } from "@/data/meeting";
 import { externalLinks, contactEmail } from "@/data/links";
 import { siteName } from "@/data/site";
+import { LogoMark } from "@/components/ui/LogoMark";
 
 // Left / center / right, per the copy deck's Global elements > Footer spec —
 // no site nav list, no "Get involved" grid. The meeting time here should
@@ -12,7 +13,12 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-muted/40">
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-4 px-6 py-8 text-center text-sm text-muted-foreground sm:px-8 md:flex-row md:justify-between md:text-left">
-        <p>© {year} {siteName}. All rights reserved.</p>
+        <p className="flex items-center gap-2">
+          <LogoMark className="h-4 w-4 shrink-0" />
+          <span>
+            © {year} {siteName}. All rights reserved.
+          </span>
+        </p>
 
         <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
           <span>
