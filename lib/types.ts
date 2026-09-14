@@ -36,7 +36,7 @@ export interface Project {
   image?: string;
 }
 
-export type MemberGroup = "exec" | "general";
+export type MemberGroup = "president" | "team";
 
 export interface TeamMember {
   slug: string;
