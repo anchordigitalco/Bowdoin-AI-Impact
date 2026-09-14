@@ -28,34 +28,33 @@ export const academicBreaks: AcademicBreak[] = [
 export interface ScheduledMeeting {
   /** ISO date, always a Monday. */
   date: string;
-  /** Ties to CurriculumUnit.order in data/curriculum.ts. */
-  sessionOrder: number;
+  /** Ties to CurriculumUnit.order in data/curriculum.ts — omitted for a
+   *  plain, no-specific-topic "Meeting" once the 7-part curriculum is
+   *  done. */
+  sessionOrder?: number;
 }
 
-// Every Monday meeting through the end of the 7-session curriculum
-// cycle — two consecutive meetings per session ("2 weeks per part of
-// the curriculum"), skipping any Monday inside a real break above.
-// Only 12 Mondays (not 14) fall within Fall semester once Fall Break
-// and Thanksgiving are excluded, so Session 7's second meeting lands
-// just after Spring semester begins (Jan 25, 2027) rather than before
-// winter break — this is what the real calendar actually allows, not
-// an approximation.
+// One curriculum session per meeting, one meeting per week, for the
+// first 7 real meeting weeks (skipping any Monday inside a break
+// above) — after that, weekly meetings continue as plain "Meeting"
+// entries through the end of Fall semester. Nothing is scheduled past
+// Winter Break — no Spring semester dates here.
 export const scheduledMeetings: ScheduledMeeting[] = [
   { date: "2026-09-14", sessionOrder: 1 },
-  { date: "2026-09-21", sessionOrder: 1 },
-  { date: "2026-09-28", sessionOrder: 2 },
-  { date: "2026-10-05", sessionOrder: 2 },
+  { date: "2026-09-21", sessionOrder: 2 },
+  { date: "2026-09-28", sessionOrder: 3 },
+  { date: "2026-10-05", sessionOrder: 4 },
   // 2026-10-12 skipped — Fall Break
-  { date: "2026-10-19", sessionOrder: 3 },
-  { date: "2026-10-26", sessionOrder: 3 },
-  { date: "2026-11-02", sessionOrder: 4 },
-  { date: "2026-11-09", sessionOrder: 4 },
-  { date: "2026-11-16", sessionOrder: 5 },
+  { date: "2026-10-19", sessionOrder: 5 },
+  { date: "2026-10-26", sessionOrder: 6 },
+  { date: "2026-11-02", sessionOrder: 7 },
+  // Curriculum's 7 sessions are covered as of here — plain meetings
+  // from this point on.
+  { date: "2026-11-09" },
+  { date: "2026-11-16" },
   // 2026-11-23 skipped — Thanksgiving Break
-  { date: "2026-11-30", sessionOrder: 5 },
-  { date: "2026-12-07", sessionOrder: 6 },
-  { date: "2026-12-14", sessionOrder: 6 },
-  // Winter Break: 2026-12-15 – 2027-01-24 (no meetings)
-  { date: "2027-01-25", sessionOrder: 7 },
-  { date: "2027-02-01", sessionOrder: 7 },
+  { date: "2026-11-30" },
+  { date: "2026-12-07" },
+  { date: "2026-12-14" },
+  // Winter Break starts 2026-12-15 — nothing scheduled after this.
 ];
