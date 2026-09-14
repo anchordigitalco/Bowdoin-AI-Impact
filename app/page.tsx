@@ -1,6 +1,5 @@
 import { Hero } from "@/components/home/Hero";
 import { HeroPitch } from "@/components/home/HeroPitch";
-import { MeetingBlock } from "@/components/home/MeetingBlock";
 import { AcademicCalendar } from "@/components/home/AcademicCalendar";
 import { WhatThisClubIs } from "@/components/home/WhatThisClubIs";
 import { ThreeUp } from "@/components/home/ThreeUp";
@@ -13,7 +12,6 @@ export default function HomePage() {
     <>
       <Hero />
       <HeroPitch />
-      <MeetingBlock />
       <AcademicCalendar />
       <WhatThisClubIs />
       <ThreeUp />
