@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+/*
+ * Theme — source of truth for color. Swap values here (and only here) to
+ * re-theme the whole site. Do not hardcode colors in components; use the
+ * Tailwind utilities this file wires up below (bg-background,
+ * text-foreground, bg-primary, etc.)
+ *
+ * This is a general style guide (color, radius, shadow, spacing) — it
+ * doesn't dictate layout or which element goes where.
+ *
+ * Dark-only: the site has no light mode, so these are the only tokens —
+ * no `.dark` class, no `:root` light fallback. (`--background` is pushed
+ * to true black rather than this theme's default dark-navy.)
+ *
+ * Contrast note: --primary here is a vivid blue. --primary-foreground is
+ * already tuned for AA at normal text size (~4.86:1, near-black text on
+ * this brighter dark-mode --primary). Always pair --primary with
+ * --primary-foreground (not a hardcoded white/black) so that holds.
+ */
+:root {
+  --card: hsl(222.2, 84%, 4.9%);
+  --ring: hsl(224.3, 76.3%, 48%);
+  --input: hsl(217.2, 32.6%, 17.5%);
+  --muted: hsl(217.2, 32.6%, 17.5%);
+  --accent: hsl(217.2, 32.6%, 17.5%);
+  --border: hsl(217.2, 32.6%, 17.5%);
+  --radius: 0.375rem;
+  --chart-1: hsl(224.3, 76.3%, 48%);
+  --chart-2: hsl(221, 83%, 53%);
+  --chart-3: hsl(199, 89%, 48%);
+  --chart-4: hsl(215, 25%, 27%);
+  --chart-5: hsl(224, 71%, 45%);
+  --popover: hsl(222.2, 84%, 4.9%);
+  --primary: hsl(217.2, 91.2%, 59.8%);
+  --sidebar: hsl(222.2, 84%, 4.9%);
+  --spacing: 0.25rem;
+  --font-mono: JetBrains Mono, monospace;
+  --font-sans: Inter, system-ui, sans-serif;
+  --secondary: hsl(217.2, 32.6%, 17.5%);
+  --background: hsl(0, 0%, 0%);
+  --font-serif: Georgia, serif;
+  --foreground: hsl(210, 40%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --shadow-blur: 15px;
+  --shadow-color: 0, 0%, 0%;
+  --sidebar-ring: hsl(224.3, 76.3%, 48%);
+  --shadow-spread: 0px;
+  --letter-spacing: -0.015em;
+  --shadow-opacity: 0.5;
+  --sidebar-accent: hsl(217.2, 32.6%, 17.5%);
+  --sidebar-border: hsl(217.2, 32.6%, 17.5%);
+  --card-foreground: hsl(210, 40%, 98%);
+  --shadow-offset-x: 0px;
+  --shadow-offset-y: 8px;
+  --sidebar-primary: hsl(217.2, 91.2%, 59.8%);
+  --muted-foreground: hsl(215, 20.2%, 65.1%);
+  --accent-foreground: hsl(210, 40%, 98%);
+  --popover-foreground: hsl(210, 40%, 98%);
+  --primary-foreground: hsl(222.2, 47.4%, 11.2%);
+  --sidebar-foreground: hsl(210, 40%, 98%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --sidebar-accent-foreground: hsl(210, 40%, 98%);
+  --sidebar-primary-foreground: hsl(222.2, 84%, 4.9%);
+  --shadow: var(--shadow-offset-x) var(--shadow-offset-y) var(--shadow-blur)
+    var(--shadow-spread) hsl(var(--shadow-color) / var(--shadow-opacity));
+}
+
+@theme inline {
+  --color-card: var(--card);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-radius: var(--radius);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-popover: var(--popover);
+  --color-primary: var(--primary);
+  --color-sidebar: var(--sidebar);
+  --color-spacing: var(--spacing);
+  --color-font-mono: var(--font-mono);
+  --color-font-sans: var(--font-sans);
+  --color-secondary: var(--secondary);
+  --color-background: var(--background);
+  --color-font-serif: var(--font-serif);
+  --color-foreground: var(--foreground);
+  --color-destructive: var(--destructive);
+  --color-shadow-blur: var(--shadow-blur);
+  --color-shadow-color: var(--shadow-color);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-shadow-spread: var(--shadow-spread);
+  --color-letter-spacing: var(--letter-spacing);
+  --color-shadow-opacity: var(--shadow-opacity);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-card-foreground: var(--card-foreground);
+  --color-shadow-offset-x: var(--shadow-offset-x);
+  --color-shadow-offset-y: var(--shadow-offset-y);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+}
+
+/*
+ * Two typefaces, two jobs — see lib/fonts.ts for how each loads.
+ *
+ * font-sans (Sora): everything — body copy, nav, buttons, forms, footers,
+ * card titles. The default; components don't need to opt into it.
+ *
+ * font-display (Michroma): ONLY the wordmark/logo, the hero headline,
+ * section eyebrows + numeric indices, and large stat/number callouts.
+ * Never body copy, never anything under 14px. It ships in exactly one
+ * weight (400) — never pair it with font-bold/font-semibold or <strong>,
+ * that fake-bolds it and it renders broken. Its fallback is Arial Black,
+ * not Sora — the two have very different widths, so falling back to Sora
+ * would shift layout more than falling back to a similarly-wide face.
+ * Because Michroma is so wide, anything set in it needs a tight character
+ * budget and usually an explicit line break rather than relying on wrap.
+ */
+:root {
+  --font-sans: var(--font-body), Sora, system-ui, sans-serif;
+  --font-display: var(--font-display-runtime), "Arial Black", sans-serif;
+}
+
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    letter-spacing: var(--letter-spacing);
+  }
+
+  /* Visible, high-contrast focus ring for keyboard users on every
+     interactive element — never rely on browser default alone. */
+  a, button, input, textarea, select, [tabindex] {
+    outline-color: var(--color-ring);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+}
+
+@layer utilities {
+  /* Visually hide content except for screen readers, until focused
+     (skip link pattern). */
+  .sr-only-focusable {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .sr-only-focusable:focus {
+    position: fixed;
+    width: auto;
+    height: auto;
+    padding: 0.75rem 1.25rem;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    z-index: 100;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

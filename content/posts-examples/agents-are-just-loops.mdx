@@ -1,0 +1,36 @@
+---
+title: "Agents Are Just Loops (Mostly)"
+date: "2026-03-02"
+author: "Placeholder Author"
+authorRole: "Curriculum Lead"
+excerpt: "Demystifying agents before our tools-and-agents session — it's a loop with a memory and a few tools, not magic."
+tags: ["agents", "curriculum"]
+slug: "agents-are-just-loops"
+---
+
+PLACEHOLDER POST — replace with a real writeup. See `CONTENT.md` for how posts work.
+
+"Agent" gets thrown around a lot, and it can make the concept sound heavier than it is. Ahead of our agents-and-tools session, here's the version we actually teach.
+
+## The loop
+
+At its simplest, an agent is:
+
+1. Give the model a goal and a list of tools it's allowed to call.
+2. The model decides whether to respond directly or call a tool.
+3. If it calls a tool, run the tool, feed the result back in.
+4. Repeat until the model decides it's done.
+
+That's most of it. The interesting engineering is in steps 2 and 3 — deciding what tools to expose, how to validate what comes back, and when to stop the loop before it spins forever.
+
+## Where it goes wrong
+
+The failure modes we'll spend the most time on:
+
+- **No stopping condition.** The loop keeps calling a tool because nothing tells it the task is finished.
+- **Too many tools.** A model with twenty vague tools performs worse than one with three clear ones.
+- **Trusting tool output blindly.** If a tool can return bad data, the agent needs a way to notice.
+
+## What you'll build
+
+By the end of the session, you'll have a small agent that can search a folder of files and answer questions about them — intentionally scoped small enough to finish in one sitting.
