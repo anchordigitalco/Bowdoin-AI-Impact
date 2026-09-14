@@ -14,11 +14,10 @@ export default function TeamPage() {
 
   return (
     <>
-      <Section as="div" id="team">
+      <Section as="div" id="team" className="pt-6 sm:pt-10">
         <PageIntro title="Leadership Team">
           <p>
-            Three co-presidents who use these tools daily and wanted a place on campus to figure
-            them out together. Come say hi at a meeting or email us at{" "}
+            Come say hi at a meeting or email us at{" "}
             <a
               href={`mailto:${contactEmail}`}
               className="text-foreground underline underline-offset-4 hover:no-underline"

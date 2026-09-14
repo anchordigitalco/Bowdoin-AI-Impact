@@ -17,8 +17,12 @@ export default function BlogPage() {
 
   return (
     <>
-      <Section as="div" id="blog-intro" className={posts.length > 0 ? "pb-0" : undefined}>
-        <PageIntro title="Writing">
+      <Section
+        as="div"
+        id="blog-intro"
+        className={`pt-6 sm:pt-10 ${posts.length > 0 ? "pb-0" : ""}`}
+      >
+        <PageIntro title="BAII Blog">
           <p>
             Notes from the club leadership on what we&rsquo;re reading, what we tested, and what
             came out of recent meetings. Short pieces, published when we have something worth

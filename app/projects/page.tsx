@@ -8,8 +8,8 @@ export const metadata: Metadata = { title: "Projects" };
 export default function ProjectsPage() {
   return (
     <>
-      <Section as="div" id="projects">
-        <PageIntro title="What students are building">
+      <Section as="div" id="projects" className="pt-6 sm:pt-10">
+        <PageIntro title="Our Projects">
           <p>
             Build meetings are work sessions. You come in with an idea or join someone
             else&rsquo;s, and the goal is to finish something small rather than start something

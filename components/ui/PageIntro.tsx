@@ -17,7 +17,7 @@ interface PageIntroProps {
 export function PageIntro({ title, children, className }: PageIntroProps) {
   return (
     <div className={cn("mb-10 max-w-2xl sm:mb-14", className)}>
-      <h1 className="font-display text-[clamp(1.5rem,3.5vw,2.5rem)] leading-[1.15] tracking-[-0.01em] text-balance">
+      <h1 className="font-display text-[clamp(1.35rem,3vw,2.25rem)] leading-[1.15] tracking-[-0.01em] text-balance">
         {title}
       </h1>
       {children ? (

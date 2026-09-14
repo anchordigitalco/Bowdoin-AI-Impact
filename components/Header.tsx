@@ -105,7 +105,17 @@ export function Header() {
       <div className="flex w-full items-center justify-between px-4 py-4 sm:px-6 md:grid md:grid-cols-[1fr_auto_1fr] lg:px-8">
         <Link
           href="/"
-          className="inline-flex h-10 items-center whitespace-nowrap rounded-full border border-white/10 bg-black px-4 font-display text-sm tracking-tight sm:h-11 sm:px-5 sm:text-base md:justify-self-start"
+          // A route change to "/" already scrolls to top on its own —
+          // this only matters when you're already on the home page,
+          // where Next.js treats it as a no-op navigation and leaves
+          // the scroll position untouched otherwise.
+          onClick={(e) => {
+            if (pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+          className="inline-flex h-10 items-center whitespace-nowrap rounded-full border border-white/10 bg-black px-4 font-display text-sm tracking-tight text-white transition-colors hover:bg-white hover:text-black sm:h-11 sm:px-5 sm:text-base md:justify-self-start"
         >
           {siteName}
         </Link>
@@ -124,7 +134,7 @@ export function Header() {
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "rounded-full px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground",
+                  "rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-foreground hover:text-background",
                   isActive && "text-foreground"
                 )}
               >
@@ -138,7 +148,7 @@ export function Header() {
           <Button
             href={joinHref}
             size="sm"
-            className="hidden rounded-full border border-white/10 bg-black text-white hover:bg-black/85 md:inline-flex"
+            className="hidden rounded-full border border-white/10 bg-black text-white hover:bg-foreground hover:text-background md:inline-flex"
           >
             Join the club
           </Button>

@@ -7,7 +7,7 @@ export function ProjectsTeaser() {
   return (
     <Section as="section" id="projects-preview" className="bg-muted/40">
       <SectionHeading
-        title="What students are building"
+        title="Our Projects"
         description="Build meetings turn into real things. Here is what has come out of them so far."
       />
       {/* No projects have been posted yet — real cards (Sanity-driven,

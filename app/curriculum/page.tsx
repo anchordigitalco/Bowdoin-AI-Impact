@@ -24,8 +24,8 @@ function dateForSession(order: number) {
 export default function CurriculumPage() {
   return (
     <>
-      <Section as="div" id="curriculum">
-        <PageIntro title="The curriculum">
+      <Section as="div" id="curriculum" className="pt-6 sm:pt-10">
+        <PageIntro title="Our Curriculum">
           <p>
             Teaching meetings run a 30-minute block on one topic, then open discussion. Seven
             sessions this semester, mixing how AI is changing the work you&rsquo;re heading into
@@ -43,7 +43,7 @@ export default function CurriculumPage() {
         />
       </Section>
 
-      <Section as="div" id="speaker-sphere" className="bg-muted/40">
+      <Section as="div" id="speaker-sphere" className="rounded-3xl bg-muted/40">
         <SectionHeading
           title="Speaker Sphere"
           description="Speaker Sphere is our guest series. A few times a semester we bring in someone doing this work outside the classroom, an alum, a faculty member, or a practitioner, and they replace the teaching block for that week. The format is short and direct: 20 minutes on how AI shows up in their actual job, then open Q&A. No panels, no slides you could have read yourself."
@@ -65,7 +65,9 @@ export default function CurriculumPage() {
           title="Free for members"
           description="Software the club gives every member access to at no cost."
         />
-        <SoftwarePerks />
+        <div className="rounded-3xl bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.45)] sm:p-8">
+          <SoftwarePerks />
+        </div>
       </Section>
 
       <MeetingCta />

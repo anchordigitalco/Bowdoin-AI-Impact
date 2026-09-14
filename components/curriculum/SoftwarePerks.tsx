@@ -8,7 +8,7 @@ import { softwarePerks, type SoftwarePerk } from "@/data/softwarePerks";
 
 interface StackCard {
   id: number;
-  perk: SoftwarePerk;
+  perk: SoftwarePerk | null;
 }
 
 const positionStyles = [
@@ -20,17 +20,26 @@ const positionStyles = [
 const exitAnimation = { y: 340, scale: 1, zIndex: 10 };
 const enterAnimation = { y: -16, scale: 0.9 };
 
+// Always a 3-deep stack, even with one real perk — blank cards fill the
+// remaining slots rather than faking more perks than actually exist.
+// The stack is a circular window over `total` real perks followed by
+// (3 - total) blanks; "Scroll" always advances that window by one.
+const VIRTUAL_LENGTH = Math.max(softwarePerks.length, 3);
+function virtualItem(i: number): SoftwarePerk | null {
+  const idx = ((i % VIRTUAL_LENGTH) + VIRTUAL_LENGTH) % VIRTUAL_LENGTH;
+  return idx < softwarePerks.length ? softwarePerks[idx] : null;
+}
+
 /**
- * Right now there's only one software perk (Claude Max), so — unlike
- * the source component this was adapted from, which always renders a
- * 3-deep stack of placeholder content — this only stacks as many cards
- * as actually exist (min(items, 3)), so it never fakes having more
- * perks than it really has. The icon panel is the real Claude/Anthropic
- * mark (see ClaudeIcon.tsx) standing in for a photo, since there isn't
- * one. "Scroll" (renamed from the source's "Animate") only appears once
- * a second perk is added — with one item there's nothing to scroll to.
+ * The icon panel is the real Claude/Anthropic mark (see ClaudeIcon.tsx)
+ * standing in for a photo — there's no per-perk photography. A blank
+ * perk renders an empty card (the shell's border/background still
+ * shows, just nothing inside).
  */
-function PerkCardContent({ perk }: { perk: SoftwarePerk }) {
+function PerkCardContent({ perk }: { perk: SoftwarePerk | null }) {
+  if (!perk) {
+    return <div className="h-full w-full" aria-hidden="true" />;
+  }
   return (
     <div className="flex h-full w-full flex-col gap-4">
       <div className="flex h-[200px] w-full items-center justify-center rounded-[var(--radius)] border border-border bg-background">
@@ -80,20 +89,19 @@ function AnimatedCard({
 
 export function SoftwarePerks() {
   const reduceMotion = useReducedMotion();
-  const total = softwarePerks.length;
-  const stackDepth = Math.min(total, 3);
 
+  const [cursor, setCursor] = useState(0);
   const [cards, setCards] = useState<StackCard[]>(() =>
-    softwarePerks.slice(0, stackDepth).map((perk, i) => ({ id: i, perk }))
+    [0, 1, 2].map((i) => ({ id: i, perk: virtualItem(i) }))
   );
-  const [nextId, setNextId] = useState(stackDepth);
-  const [nextIndex, setNextIndex] = useState(stackDepth % total);
+  const [nextId, setNextId] = useState(3);
 
   const handleScroll = () => {
-    const perk = softwarePerks[nextIndex];
-    setCards((prev) => [...prev.slice(1), { id: nextId, perk }]);
+    const newCursor = cursor + 1;
+    const entering = virtualItem(newCursor + 2);
+    setCards((prev) => [...prev.slice(1), { id: nextId, perk: entering }]);
     setNextId((n) => n + 1);
-    setNextIndex((i) => (i + 1) % total);
+    setCursor(newCursor);
   };
 
   return (
@@ -106,17 +114,15 @@ export function SoftwarePerks() {
         </AnimatePresence>
       </div>
 
-      {total > 1 ? (
-        <div className="relative z-10 -mt-px flex w-full items-center justify-center border-t border-border py-4">
-          <button
-            type="button"
-            onClick={handleScroll}
-            className="flex h-9 cursor-pointer items-center justify-center gap-1 rounded-full border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-muted active:scale-[0.98]"
-          >
-            Scroll
-          </button>
-        </div>
-      ) : null}
+      <div className="relative z-10 -mt-px flex w-full items-center justify-center border-t border-border py-4">
+        <button
+          type="button"
+          onClick={handleScroll}
+          className="flex h-9 cursor-pointer items-center justify-center gap-1 rounded-full border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-muted active:scale-[0.98]"
+        >
+          Scroll
+        </button>
+      </div>
     </div>
   );
 }

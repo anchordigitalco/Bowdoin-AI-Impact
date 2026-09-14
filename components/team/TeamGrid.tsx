@@ -56,12 +56,12 @@ function MemberCard({ member, onOpen }: { member: TeamMember; onOpen: () => void
       // row-stretching alone wouldn't match his card to the others.
       // line-clamp on the meta line keeps Henry's longer major/minor
       // from growing the card past this height.
-      className="group flex h-64 w-full cursor-pointer flex-col items-start gap-4 border border-border p-6 text-left transition-colors hover:border-foreground/40"
+      className="group flex h-80 w-full cursor-pointer flex-col items-start gap-4 border border-border p-6 text-left transition-colors hover:border-foreground/40"
     >
-      <MemberPhoto name={member.name} photo={member.photo} className="h-20 w-20 text-2xl" />
+      <MemberPhoto name={member.name} photo={member.photo} className="h-24 w-24 text-3xl" />
       <div className="flex flex-1 flex-col">
         <p className="font-semibold text-foreground">{member.name}</p>
-        <p className="mt-1 text-sm text-muted-foreground">{member.role}</p>
+        <p className="mt-1 text-sm text-foreground">{member.role}</p>
         {meta ? <p className="line-clamp-2 text-sm text-muted-foreground">{meta}</p> : null}
         {member.linkedin ? (
           <a
@@ -127,7 +127,7 @@ function MemberDetail({ member, onClose }: { member: TeamMember; onClose: () => 
           <MemberPhoto name={member.name} photo={member.photo} className="h-24 w-24 text-3xl sm:h-28 sm:w-28" />
           <div>
             <p className="text-xl font-semibold text-foreground">{member.name}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{member.role}</p>
+            <p className="mt-1 text-sm text-foreground">{member.role}</p>
             {meta ? <p className="mt-1 text-sm text-muted-foreground">{meta}</p> : null}
           </div>
           {member.linkedin ? (
