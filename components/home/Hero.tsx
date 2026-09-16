@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { siteName } from "@/data/site";
+import { lenisRef } from "@/lib/lenis";
 
 /**
  * Scroll-driven parallax hero, three stacked layers (back to front):
@@ -72,6 +73,7 @@ export function Hero() {
 
     const lenis = new Lenis();
     lenis.on("scroll", ScrollTrigger.update);
+    lenisRef.current = lenis;
 
     const raf = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(raf);
@@ -79,6 +81,7 @@ export function Hero() {
 
     return () => {
       gsap.ticker.remove(raf);
+      lenisRef.current = null;
       lenis.destroy();
       ctx.revert();
     };

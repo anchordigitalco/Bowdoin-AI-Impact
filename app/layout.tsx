@@ -37,7 +37,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`dark ${bodyFont.variable} ${displayFont.variable}`}>
+    <html
+      lang="en"
+      // Next 16 no longer auto-overrides scroll-behavior during route
+      // transitions by default (it used to force an instant jump, then
+      // restore it). This site sets `scroll-behavior: smooth` globally
+      // in globals.css, so without this attribute a route change (e.g.
+      // clicking the header wordmark from another page back to "/")
+      // itself plays a smooth scroll-to-top *during* the navigation —
+      // right as the hero mounts and Lenis takes over its own scroll,
+      // which is what read as a glitch in the hero video. This restores
+      // the instant-jump-then-restore behavior for navigations, so the
+      // hero always starts clean at position 0 before Lenis takes over;
+      // in-page anchor links still get the smooth CSS behavior.
+      data-scroll-behavior="smooth"
+      className={`dark ${bodyFont.variable} ${displayFont.variable}`}
+    >
       <body className="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased">
         <Header />
         {/* The header floats fixed over the page now (see Header.tsx), so

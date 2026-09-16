@@ -10,6 +10,7 @@ import { siteName } from "@/data/site";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { LogoMark } from "@/components/ui/LogoMark";
+import { lenisRef } from "@/lib/lenis";
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
@@ -109,11 +110,20 @@ export function Header() {
           // A route change to "/" already scrolls to top on its own —
           // this only matters when you're already on the home page,
           // where Next.js treats it as a no-op navigation and leaves
-          // the scroll position untouched otherwise.
+          // the scroll position untouched otherwise. Goes through Lenis
+          // (see lib/lenis.ts) rather than window.scrollTo — the hero's
+          // video parallax is also driven by Lenis, and a raw native
+          // scroll fights it, which is what read as a "glitch" in the
+          // video. Lenis instance only exists while Hero is mounted
+          // (home page only), hence the fallback.
           onClick={(e) => {
             if (pathname === "/") {
               e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
+              if (lenisRef.current) {
+                lenisRef.current.scrollTo(0);
+              } else {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
             }
           }}
           className="inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-black px-4 font-display text-sm tracking-tight text-white transition-colors [--logo-fg:white] [--logo-bg:black] hover:bg-white hover:text-black hover:[--logo-fg:black] hover:[--logo-bg:white] sm:h-11 sm:gap-2.5 sm:px-5 sm:text-base md:justify-self-start"
