@@ -4,16 +4,19 @@ import { Section } from "@/components/ui/Section";
 import { PageIntro } from "@/components/ui/PageIntro";
 import { Card, CardEyebrow, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Reveal } from "@/components/ui/Reveal";
-import { getAllPosts } from "@/lib/posts";
+import { client } from "@/lib/sanity/client";
+import { POSTS_QUERY } from "@/lib/sanity/queries";
 import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Blog" };
 
+const options = { next: { revalidate: 60 } };
+
 // No Meeting block / Join CTA at the bottom here — the copy deck doesn't
 // call for one on the Blog index the way it does on Curriculum, Projects,
 // and Team.
-export default function BlogPage() {
-  const posts = getAllPosts();
+export default async function BlogPage() {
+  const posts = await client.fetch(POSTS_QUERY, {}, options);
 
   return (
     <>
@@ -52,12 +55,14 @@ export default function BlogPage() {
         <Section as="div" id="blog-posts">
           <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post, i) => (
-              <li key={post.slug}>
+              <li key={post._id}>
                 <Reveal delay={i * 60}>
                   <Link href={`/blogs/${post.slug}`} className="block h-full">
                     <Card>
                       <CardEyebrow>
-                        {formatDate(post.date)} · {post.author}
+                        {post.publishedAt ? formatDate(post.publishedAt.slice(0, 10)) : null}
+                        {post.publishedAt && post.author ? " · " : null}
+                        {post.author}
                       </CardEyebrow>
                       <CardTitle>{post.title}</CardTitle>
                       <CardDescription>{post.excerpt}</CardDescription>
