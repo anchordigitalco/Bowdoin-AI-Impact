@@ -41,7 +41,7 @@ export const team: TeamMember[] = [
   },
   {
     slug: "adam-bello",
-    name: "Adam Bello",
+    name: "Adam Evans Bello",
     classYear: "Junior",
     major: "Government and Legal Studies, minor in Economics",
     // A non-breaking space sits between "Creative" and "Development"
@@ -50,7 +50,7 @@ export const team: TeamMember[] = [
     role: "Head of Creative Development",
     group: "team",
     bio: "Adam Evans Bello is a junior from the Bronx, New York, studying Government and Legal Studies with a minor in Economics. He co-founded Anchor Digital, a digital strategy studio he runs with Jackson Bleecker for small businesses, nonprofits, and individuals, and using AI every day there is what got him into this. He has taken AI courses through Google, The Wharton School, and Anthropic, earning certifications in data analysis, marketing and finance, and AI fluency. He wanted a place on campus where students got practical with these tools instead of only arguing about them. Outside of academics he plays point guard for the men's basketball team and is always happy to talk to anyone thinking about starting something of their own.",
-    linkedin: "https://www.linkedin.com/in/adam-bello-57067231a/",
+    linkedin: "https://www.linkedin.com/in/adam-evans-bello-57067231a/",
     photo: "/Team Photos/adam-bello.jpg",
   },
 ];
