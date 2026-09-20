@@ -14,7 +14,7 @@ export const team: TeamMember[] = [
     major: "Government and Legal Studies, minor in Economics",
     role: "Co-President",
     group: "president",
-    bio: "Jackson Bleecker is a junior from West Orange, New Jersey, studying Government and Legal Studies with a minor in Economics. He co-founded Anchor Digital, a digital strategy studio he runs with Adam Bello for small businesses and nonprofits, and using AI every day there is what got him into this. He wanted a place on campus where students got practical with these tools instead of only arguing about them. Outside of academics he plays for the men's basketball team and is always happy to talk to anyone thinking about starting something of their own.",
+    bio: "Jackson Bleecker is a junior from West Orange, New Jersey, studying Government and Legal Studies with a minor in Economics. He co-founded Anchor Digital, a digital strategy studio he runs with Adam Evans Bello for small businesses and nonprofits, and using AI every day there is what got him into this. He wanted a place on campus where students got practical with these tools instead of only arguing about them. Outside of academics he plays for the men's basketball team and is always happy to talk to anyone thinking about starting something of their own.",
     linkedin: "https://www.linkedin.com/in/jackson-bleecker/",
     photo: "/Team Photos/jackson-bleecker.png",
   },
