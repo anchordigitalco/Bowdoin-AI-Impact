@@ -3,17 +3,16 @@ import { bodyFont, displayFont } from "@/lib/fonts";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { siteName } from "@/data/site";
+import { meeting } from "@/data/meeting";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bowdoinaiclub.org";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.bowdoinaiimpact.org";
 
-// Description is the copy deck's Global elements > Meta/SEO text,
-// verbatim. Title uses siteName instead of the deck's literal "AI
-// Impact" (branding call: keep "Bowdoin A.I. Impact" everywhere) — and
-// subpages get "| Bowdoin College" rather than "| Bowdoin A.I. Impact",
-// since the club name already contains "Bowdoin".
-const metaDescription =
-  "A student club at Bowdoin for learning how AI actually gets used in work and building things with it. Mondays 8:30–9:30 PM in Mills 127.";
+// Description is the copy deck's Global elements > Meta/SEO text, with
+// the meeting time/place pulled from data/meeting.ts instead of typed
+// out here a second time — this went stale once already when the
+// meeting moved and this sentence didn't.
+const metaDescription = `A student club at Bowdoin for learning how AI actually gets used in work and building things with it. ${meeting.day}s ${meeting.displayTime} in ${meeting.roomShort}.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
