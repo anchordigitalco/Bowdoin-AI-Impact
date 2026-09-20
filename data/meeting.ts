@@ -6,14 +6,14 @@
 export const meeting = {
   day: "Monday" as const,
   /** 24-hour "HH:MM", used to build the .ics file. Assumed to be evening (PM). */
-  startTime: "20:30",
-  endTime: "21:30",
+  startTime: "19:30",
+  endTime: "20:30",
   /** Human-readable time range shown on the page. */
-  displayTime: "8:30 – 9:30 PM",
-  building: "Mills Hall",
-  room: "Room 127",
+  displayTime: "7:30 – 8:30 PM",
+  building: "Sills Hall",
+  room: "Room 010",
   /** Compact form for tight spaces — the footer, meta description. */
-  roomShort: "Mills 127",
+  roomShort: "Sills 010",
   timezone: "America/New_York",
   /** First occurrence used to seed the recurring calendar event (a Monday). */
   firstOccurrence: "2026-09-14",

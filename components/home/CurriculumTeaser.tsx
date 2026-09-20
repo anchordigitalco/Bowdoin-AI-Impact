@@ -3,10 +3,14 @@ import { ArrowRight } from "lucide-react";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Reveal } from "@/components/ui/Reveal";
-import { curriculum } from "@/data/curriculum";
+import { client } from "@/lib/sanity/client";
+import { CURRICULUM_SESSIONS_QUERY } from "@/lib/sanity/queries";
 
-export function CurriculumTeaser() {
-  const preview = curriculum.slice(0, 3);
+const options = { next: { revalidate: 60 } };
+
+export async function CurriculumTeaser() {
+  const sessions = await client.fetch(CURRICULUM_SESSIONS_QUERY, {}, options);
+  const preview = sessions.slice(0, 3);
 
   return (
     <Section as="section" id="curriculum-preview">

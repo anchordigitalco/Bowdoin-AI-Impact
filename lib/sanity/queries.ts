@@ -35,3 +35,13 @@ export const POST_QUERY = defineQuery(`
 export const POST_SLUGS_QUERY = defineQuery(`
   *[_type == "post" && defined(slug.current)]{ "slug": slug.current }
 `);
+
+/** All curriculum sessions, in teaching order. */
+export const CURRICULUM_SESSIONS_QUERY = defineQuery(`
+  *[_type == "curriculumSession"] | order(order asc) {
+    _id,
+    order,
+    title,
+    description
+  }
+`);

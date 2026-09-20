@@ -4,11 +4,14 @@ import { PageIntro } from "@/components/ui/PageIntro";
 import { CoverFlowCarousel } from "@/components/ui/CoverFlowCarousel";
 import { SoftwarePerks } from "@/components/curriculum/SoftwarePerks";
 import { MeetingCta } from "@/components/home/MeetingCta";
-import { curriculum } from "@/data/curriculum";
+import { client } from "@/lib/sanity/client";
+import { CURRICULUM_SESSIONS_QUERY } from "@/lib/sanity/queries";
 import { scheduledMeetings } from "@/data/academicCalendar";
 import { contactEmail } from "@/data/links";
 
 export const metadata: Metadata = { title: "Curriculum" };
+
+const options = { next: { revalidate: 60 } };
 
 // The real date each session is actually taught, from the same
 // schedule the home page calendar reads — not a separate guess.
@@ -21,7 +24,18 @@ function dateForSession(order: number) {
   });
 }
 
-export default function CurriculumPage() {
+export default async function CurriculumPage() {
+  const rawSessions = await client.fetch(CURRICULUM_SESSIONS_QUERY, {}, options);
+  // `required()` in the Studio schema keeps these filled in practice —
+  // TypeGen still types every field nullable since that's a Studio-only
+  // constraint, not a schema-level one, so this filter is what actually
+  // narrows the type (and quietly excludes any session someone left
+  // mid-edit rather than crashing the page on it).
+  const sessions = rawSessions.filter(
+    (session): session is typeof session & { order: number; title: string; description: string } =>
+      session.order != null && session.title != null && session.description != null
+  );
+
   return (
     <>
       <Section as="div" id="curriculum" className="pt-6 sm:pt-10">
@@ -32,7 +46,7 @@ export default function CurriculumPage() {
           </p>
         </PageIntro>
         <CoverFlowCarousel
-          items={curriculum.map((session) => ({
+          items={sessions.map((session) => ({
             index: session.order,
             title: session.title,
             description: session.description,

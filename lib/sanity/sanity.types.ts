@@ -15,6 +15,17 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
+export type CurriculumSession = {
+  _id: string;
+  _type: "curriculumSession";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  order?: number;
+  title?: string;
+  description?: string;
+};
+
 export type SanityImageAssetReference = {
   _ref: string;
   _type: "reference";
@@ -195,6 +206,7 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | CurriculumSession
   | SanityImageAssetReference
   | Post
   | SanityImageCrop
@@ -290,12 +302,23 @@ export type POST_SLUGS_QUERY_RESULT = Array<{
   slug: string | null;
 }>;
 
+// Source: ../Bowdoin AI Club/lib/sanity/queries.ts
+// Variable: CURRICULUM_SESSIONS_QUERY
+// Query: *[_type == "curriculumSession"] | order(order asc) {    _id,    order,    title,    description  }
+export type CURRICULUM_SESSIONS_QUERY_RESULT = Array<{
+  _id: string;
+  order: number | null;
+  title: string | null;
+  description: string | null;
+}>;
+
 // Query TypeMap
 declare global {
   interface SanityQueries {
     '\n  *[_type == "post" && defined(slug.current)] | order(publishedAt desc) {\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    author,\n    authorRole,\n    publishedAt,\n    tags,\n    coverImage\n  }\n': POSTS_QUERY_RESULT;
     '\n  *[_type == "post" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    author,\n    authorRole,\n    publishedAt,\n    tags,\n    coverImage,\n    body\n  }\n': POST_QUERY_RESULT;
     '\n  *[_type == "post" && defined(slug.current)]{ "slug": slug.current }\n': POST_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "curriculumSession"] | order(order asc) {\n    _id,\n    order,\n    title,\n    description\n  }\n': CURRICULUM_SESSIONS_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too
