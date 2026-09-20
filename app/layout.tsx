@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { bodyFont, displayFont } from "@/lib/fonts";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -53,6 +54,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`dark ${bodyFont.variable} ${displayFont.variable}`}
     >
       <body className="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased">
+        {/* A different, separate scroll glitch from the one above: on a
+            plain reload (not an SPA transition), the browser's own
+            scroll-restoration silently jumps the page back to wherever
+            you'd scrolled before hitting refresh — but only *after* the
+            hero has already painted clean at the top, so it reads as a
+            sudden snap partway through load, right as the hero's video/
+            parallax is booting up. `beforeInteractive` runs this before
+            hydration, as early as Next.js allows, so it wins the race
+            against the browser's own restoration in practice. Every
+            load — cold entry or reload — now starts at the actual top,
+            which is what the hero (the entrance to the page) assumes. */}
+        <Script id="disable-scroll-restoration" strategy="beforeInteractive">
+          {"try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}"}
+        </Script>
         <Header />
         {/* The header floats fixed over the page now (see Header.tsx), so
             it no longer reserves its own space in flow — this padding
