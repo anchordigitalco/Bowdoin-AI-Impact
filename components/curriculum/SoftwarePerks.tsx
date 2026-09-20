@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Sparkles } from "lucide-react";
 import { ClaudeIcon } from "@/components/ui/ClaudeIcon";
 import { Button } from "@/components/ui/Button";
 import { softwarePerks, type SoftwarePerk } from "@/data/softwarePerks";
@@ -33,12 +34,21 @@ function virtualItem(i: number): SoftwarePerk | null {
 /**
  * The icon panel is the real Claude/Anthropic mark (see ClaudeIcon.tsx)
  * standing in for a photo — there's no per-perk photography. A blank
- * perk renders an empty card (the shell's border/background still
- * shows, just nothing inside).
+ * perk renders a "more coming" placeholder instead of a real card, so
+ * the stack doesn't just look broken/empty behind the one real perk.
  */
 function PerkCardContent({ perk }: { perk: SoftwarePerk | null }) {
   if (!perk) {
-    return <div className="h-full w-full" aria-hidden="true" />;
+    return (
+      <div className="flex h-full w-full flex-col gap-4">
+        <div className="flex h-[200px] w-full items-center justify-center rounded-[var(--radius)] border border-dashed border-border bg-background">
+          <Sparkles className="h-10 w-10 text-muted-foreground" aria-hidden="true" />
+        </div>
+        <div className="flex w-full items-center justify-center px-3 pb-6 text-center">
+          <span className="text-sm text-muted-foreground">More to be announced soon</span>
+        </div>
+      </div>
+    );
   }
   return (
     <div className="flex h-full w-full flex-col gap-4">
