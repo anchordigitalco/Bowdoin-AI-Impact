@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { siteName } from "@/data/site";
 import { lenisRef } from "@/lib/lenis";
+import { cn } from "@/lib/utils";
 
 /**
  * Scroll-driven parallax hero, three stacked layers (back to front):
@@ -31,10 +32,24 @@ import { lenisRef } from "@/lib/lenis";
  * with no Lenis/ScrollTrigger set up, the layers left in their static CSS
  * position, and the portrait layer hidden so it doesn't duplicate the
  * poster's bear.
+ *
+ * That same duplicate-bear problem also showed up for everyone else, just
+ * briefly: `preload="none"` means the video doesn't start fetching until
+ * this effect calls .play(), so there's a real window — worse on a slow
+ * connection — where the poster (which already has its own bear baked in)
+ * is the only thing painted, while the separate portrait layer is already
+ * sitting on top of it at full opacity. Same fix as the reduced-motion
+ * case, just gated on actual playback instead of the media query: the
+ * portrait layer stays hidden until the video's `onPlaying` fires, i.e.
+ * until real frames are on screen and it's no longer competing with the
+ * poster's own bear for the same spot. If autoplay gets blocked entirely,
+ * `onPlaying` just never fires and the poster alone covers it, same as
+ * the .catch() below already assumes.
  */
 export function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoPlaying, setVideoPlaying] = useState(false);
 
   useEffect(() => {
     const reduceMotion = window.matchMedia(
@@ -110,6 +125,7 @@ export function Hero() {
           playsInline
           preload="none"
           aria-hidden="true"
+          onPlaying={() => setVideoPlaying(true)}
         />
       </div>
 
@@ -147,7 +163,10 @@ export function Hero() {
 
       <div
         data-parallax-layer="portrait"
-        className="pointer-events-none absolute inset-x-0 bottom-0 motion-reduce:hidden"
+        className={cn(
+          "pointer-events-none absolute inset-x-0 bottom-0 opacity-0 transition-opacity duration-300 motion-reduce:hidden",
+          videoPlaying && "opacity-100"
+        )}
       >
         {/* eslint-disable-next-line @next/next/no-img-element -- decorative hero art GSAP transforms directly; next/image's wrapper fights that. */}
         <img
