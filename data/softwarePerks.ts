@@ -16,7 +16,7 @@ export const softwarePerks: SoftwarePerk[] = [
   {
     slug: "claude-max",
     name: "Claude Pilot",
-    description: "Anthropic's top-tier plan — a $100/month value, free for members.",
+    description: "Anthropic's top-tier plan — a $20/month value, free for members.",
     href: "https://claude.ai",
     ctaLabel: "Try Claude",
   },
