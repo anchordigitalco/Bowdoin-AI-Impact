@@ -15,6 +15,17 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
+export type MeetingSlides = {
+  _id: string;
+  _type: "meetingSlides";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  date?: string;
+  url?: string;
+};
+
 export type CurriculumSession = {
   _id: string;
   _type: "curriculumSession";
@@ -206,6 +217,7 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | MeetingSlides
   | CurriculumSession
   | SanityImageAssetReference
   | Post
@@ -221,7 +233,7 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint;
 
-// Source: ../Bowdoin AI Club/lib/sanity/queries.ts
+// Source: ../lib/sanity/queries.ts
 // Variable: POSTS_QUERY
 // Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc) {    _id,    title,    "slug": slug.current,    excerpt,    author,    authorRole,    publishedAt,    tags,    coverImage  }
 export type POSTS_QUERY_RESULT = Array<{
@@ -243,7 +255,7 @@ export type POSTS_QUERY_RESULT = Array<{
   } | null;
 }>;
 
-// Source: ../Bowdoin AI Club/lib/sanity/queries.ts
+// Source: ../lib/sanity/queries.ts
 // Variable: POST_QUERY
 // Query: *[_type == "post" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    excerpt,    author,    authorRole,    publishedAt,    tags,    coverImage,    body  }
 export type POST_QUERY_RESULT = {
@@ -295,14 +307,14 @@ export type POST_QUERY_RESULT = {
   > | null;
 } | null;
 
-// Source: ../Bowdoin AI Club/lib/sanity/queries.ts
+// Source: ../lib/sanity/queries.ts
 // Variable: POST_SLUGS_QUERY
 // Query: *[_type == "post" && defined(slug.current)]{ "slug": slug.current }
 export type POST_SLUGS_QUERY_RESULT = Array<{
   slug: string | null;
 }>;
 
-// Source: ../Bowdoin AI Club/lib/sanity/queries.ts
+// Source: ../lib/sanity/queries.ts
 // Variable: CURRICULUM_SESSIONS_QUERY
 // Query: *[_type == "curriculumSession"] | order(order asc) {    _id,    order,    title,    description  }
 export type CURRICULUM_SESSIONS_QUERY_RESULT = Array<{
@@ -312,6 +324,16 @@ export type CURRICULUM_SESSIONS_QUERY_RESULT = Array<{
   description: string | null;
 }>;
 
+// Source: ../lib/sanity/queries.ts
+// Variable: MEETING_SLIDES_QUERY
+// Query: *[_type == "meetingSlides" && defined(url)] | order(date desc) {    _id,    title,    date,    url  }
+export type MEETING_SLIDES_QUERY_RESULT = Array<{
+  _id: string;
+  title: string | null;
+  date: string | null;
+  url: string;
+}>;
+
 // Query TypeMap
 declare global {
   interface SanityQueries {
@@ -319,6 +341,7 @@ declare global {
     '\n  *[_type == "post" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    author,\n    authorRole,\n    publishedAt,\n    tags,\n    coverImage,\n    body\n  }\n': POST_QUERY_RESULT;
     '\n  *[_type == "post" && defined(slug.current)]{ "slug": slug.current }\n': POST_SLUGS_QUERY_RESULT;
     '\n  *[_type == "curriculumSession"] | order(order asc) {\n    _id,\n    order,\n    title,\n    description\n  }\n': CURRICULUM_SESSIONS_QUERY_RESULT;
+    '\n  *[_type == "meetingSlides" && defined(url)] | order(date desc) {\n    _id,\n    title,\n    date,\n    url\n  }\n': MEETING_SLIDES_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

@@ -45,3 +45,13 @@ export const CURRICULUM_SESSIONS_QUERY = defineQuery(`
     description
   }
 `);
+
+/** Posted meeting slide decks, most recent meeting first. */
+export const MEETING_SLIDES_QUERY = defineQuery(`
+  *[_type == "meetingSlides" && defined(url)] | order(date desc) {
+    _id,
+    title,
+    date,
+    url
+  }
+`);
