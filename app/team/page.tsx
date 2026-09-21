@@ -4,7 +4,7 @@ import { PageIntro } from "@/components/ui/PageIntro";
 import { TeamGrid } from "@/components/team/TeamGrid";
 import { MeetingCta } from "@/components/home/MeetingCta";
 import { team } from "@/data/team";
-import { contactEmail } from "@/data/links";
+import { externalLinks } from "@/data/links";
 
 export const metadata: Metadata = { title: "Team" };
 
@@ -17,12 +17,14 @@ export default function TeamPage() {
       <Section as="div" id="team" className="pt-6 sm:pt-10">
         <PageIntro title="Leadership Team">
           <p>
-            Come say hi at a meeting or email us at{" "}
+            Come say hi at a meeting or{" "}
             <a
-              href={`mailto:${contactEmail}`}
+              href={externalLinks.campusGroups}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-foreground underline underline-offset-4 hover:no-underline"
             >
-              {contactEmail}
+              contact us on Campus Groups
             </a>
             .
           </p>

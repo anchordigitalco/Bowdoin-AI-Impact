@@ -7,7 +7,7 @@ import { MeetingCta } from "@/components/home/MeetingCta";
 import { client } from "@/lib/sanity/client";
 import { CURRICULUM_SESSIONS_QUERY } from "@/lib/sanity/queries";
 import { scheduledMeetings } from "@/data/academicCalendar";
-import { contactEmail } from "@/data/links";
+import { externalLinks } from "@/data/links";
 
 export const metadata: Metadata = { title: "Curriculum" };
 
@@ -61,12 +61,14 @@ export default async function CurriculumPage() {
           description="Speaker Sphere is our guest series. A few times a semester we bring in someone doing this work outside the classroom, an alum, a faculty member, or a practitioner, and they replace the teaching block for that week. The format is short and direct: 20 minutes on how AI shows up in their actual job, then open Q&A. No panels, no slides you could have read yourself."
         />
         <p className="text-muted-foreground">
-          Know someone who should speak? Email us at{" "}
+          Know someone who should speak?{" "}
           <a
-            href={`mailto:${contactEmail}`}
+            href={externalLinks.campusGroups}
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-foreground underline underline-offset-4 hover:no-underline"
           >
-            {contactEmail}
+            Contact us on Campus Groups
           </a>
           .
         </p>

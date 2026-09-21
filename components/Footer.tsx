@@ -1,5 +1,5 @@
 import { meeting } from "@/data/meeting";
-import { externalLinks, contactEmail } from "@/data/links";
+import { externalLinks } from "@/data/links";
 import { siteName } from "@/data/site";
 import { LogoMark } from "@/components/ui/LogoMark";
 
@@ -41,10 +41,6 @@ export function Footer() {
             className="hover:text-foreground"
           >
             Instagram
-          </a>
-          <span aria-hidden="true">·</span>
-          <a href={`mailto:${contactEmail}`} className="hover:text-foreground">
-            {contactEmail}
           </a>
         </p>
 

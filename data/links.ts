@@ -10,6 +10,3 @@ export const externalLinks = {
   /** Footer credit link — Jackson's Anchor Digital, which built this site. */
   anchorDigital: "https://anchordigitalco.com",
 };
-
-// Real, not a placeholder — update if the club's contact address changes.
-export const contactEmail = "aiclub@bowdoin.edu";
