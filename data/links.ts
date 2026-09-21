@@ -3,7 +3,7 @@
 // footer read from here. See CONTENT.md.
 
 export const externalLinks = {
-  campusGroups: "#TODO-bowdoin-campus-groups-page",
+  campusGroups: "https://bowdoin.campusgroups.com/bowdoinai/home/",
   emailList: "#TODO-email-list-signup-form",
   groupChat: "#TODO-group-chat-invite-link",
   instagram: "#TODO-instagram-url",
