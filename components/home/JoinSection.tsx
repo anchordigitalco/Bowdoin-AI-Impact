@@ -1,5 +1,6 @@
-import { ArrowUpRight, Camera, Mail, MessageCircle, Users } from "lucide-react";
+import { ArrowUpRight, Mail, MessageCircle, Users } from "lucide-react";
 import { Section, SectionHeading } from "@/components/ui/Section";
+import { LinkedinIcon } from "@/components/ui/LinkedinIcon";
 import { externalLinks } from "@/data/links";
 
 const ways = [
@@ -22,10 +23,10 @@ const ways = [
     href: externalLinks.groupChat,
   },
   {
-    icon: Camera,
-    title: "Instagram",
-    description: "Photos from meetings and project demos.",
-    href: externalLinks.instagram,
+    icon: LinkedinIcon,
+    title: "LinkedIn",
+    description: "Club updates and member spotlights.",
+    href: externalLinks.linkedin,
   },
 ] as const;
 

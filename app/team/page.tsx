@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Section, SectionHeading } from "@/components/ui/Section";
+import { Section } from "@/components/ui/Section";
 import { PageIntro } from "@/components/ui/PageIntro";
 import { TeamGrid } from "@/components/team/TeamGrid";
 import { MeetingCta } from "@/components/home/MeetingCta";
@@ -9,8 +9,15 @@ import { externalLinks } from "@/data/links";
 export const metadata: Metadata = { title: "Team" };
 
 export default function TeamPage() {
+  // One combined grid (lg:grid-cols-4 in TeamGrid) instead of two
+  // stacked ones — presidents first, everyone else filling the
+  // remaining slots in the same row rather than a separate section
+  // below. Each card already shows its own role (Co-President,
+  // Programming Director, ...), so a "Presidents"/"Team" split
+  // heading isn't the only place that distinction lives.
   const presidents = team.filter((m) => m.group === "president");
   const rest = team.filter((m) => m.group === "team");
+  const members = [...presidents, ...rest];
 
   return (
     <>
@@ -30,15 +37,7 @@ export default function TeamPage() {
           </p>
         </PageIntro>
 
-        <SectionHeading title="Presidents" className="mb-6 sm:mb-8" />
-        <TeamGrid members={presidents} />
-
-        {rest.length > 0 ? (
-          <>
-            <SectionHeading title="Team" className="mt-14 mb-6 sm:mt-20 sm:mb-8" />
-            <TeamGrid members={rest} />
-          </>
-        ) : null}
+        <TeamGrid members={members} />
       </Section>
 
       <MeetingCta />

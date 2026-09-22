@@ -35,12 +35,12 @@ export function Footer() {
           </a>
           <span aria-hidden="true">·</span>
           <a
-            href={externalLinks.instagram}
+            href={externalLinks.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-foreground"
           >
-            Instagram
+            LinkedIn
           </a>
         </p>
 

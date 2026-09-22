@@ -6,7 +6,7 @@ export const externalLinks = {
   campusGroups: "https://bowdoin.campusgroups.com/bowdoinai/home/",
   emailList: "#TODO-email-list-signup-form",
   groupChat: "#TODO-group-chat-invite-link",
-  instagram: "#TODO-instagram-url",
+  linkedin: "#TODO-club-linkedin-url",
   /** Footer credit link — Jackson's Anchor Digital, which built this site. */
   anchorDigital: "https://anchordigitalco.com",
 };
