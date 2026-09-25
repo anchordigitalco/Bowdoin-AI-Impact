@@ -11,6 +11,8 @@ export default defineCliConfig({
      * Learn more at https://www.sanity.io/docs/studio/latest-version-of-sanity#k47faf43faf56
      */
     autoUpdates: true,
+    // Deployed studio: https://bowdoin-ai-impact.sanity.studio/
+    appId: 'fy7sv21novlt1gm3656e7ft0',
   },
   // The Studio now lives inside the Next.js app's own folder (was a
   // sibling before), so the app root is just one level up. No src/ dir
