@@ -6,18 +6,23 @@ import { CoverFlowCarousel } from "@/components/ui/CoverFlowCarousel";
 import { SoftwarePerks } from "@/components/curriculum/SoftwarePerks";
 import { MeetingCta } from "@/components/home/MeetingCta";
 import { Reveal } from "@/components/ui/Reveal";
-import { client } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/fetch";
 import { CURRICULUM_SESSIONS_QUERY, MEETING_SLIDES_QUERY } from "@/lib/sanity/queries";
+import type {
+  CURRICULUM_SESSIONS_QUERY_RESULT,
+  MEETING_SLIDES_QUERY_RESULT,
+} from "@/lib/sanity/sanity.types";
 import { scheduledMeetings } from "@/data/academicCalendar";
 import { externalLinks } from "@/data/links";
 import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Curriculum" };
 
-// See app/blogs/[slug]/page.tsx for why this is cache: "no-store" and
-// not next: { revalidate } — the latter is a silent no-op for
-// @sanity/client's requests, confirmed live (a Studio edit stayed
-// unreflected on the deployed site well past any reasonable window).
+// See app/blogs/[slug]/page.tsx for why this is cache: "no-store" via
+// the raw sanityFetch() helper, not client.fetch() with next: {
+// revalidate } — the latter is a silent no-op, confirmed live (a
+// Studio edit stayed unreflected on the deployed site well past any
+// reasonable window).
 const options = { cache: "no-store" as const };
 
 // The real date each session is actually taught, from the same
@@ -33,8 +38,8 @@ function dateForSession(order: number) {
 
 export default async function CurriculumPage() {
   const [rawSessions, slides] = await Promise.all([
-    client.fetch(CURRICULUM_SESSIONS_QUERY, {}, options),
-    client.fetch(MEETING_SLIDES_QUERY, {}, options),
+    sanityFetch<CURRICULUM_SESSIONS_QUERY_RESULT>(CURRICULUM_SESSIONS_QUERY, {}, options),
+    sanityFetch<MEETING_SLIDES_QUERY_RESULT>(MEETING_SLIDES_QUERY, {}, options),
   ]);
   // `required()` in the Studio schema keeps these filled in practice —
   // TypeGen still types every field nullable since that's a Studio-only

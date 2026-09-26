@@ -4,23 +4,25 @@ import { Section } from "@/components/ui/Section";
 import { PageIntro } from "@/components/ui/PageIntro";
 import { Card, CardEyebrow, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Reveal } from "@/components/ui/Reveal";
-import { client } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/fetch";
 import { POSTS_QUERY } from "@/lib/sanity/queries";
+import type { POSTS_QUERY_RESULT } from "@/lib/sanity/sanity.types";
 import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Blog" };
 
-// See app/blogs/[slug]/page.tsx for why this is cache: "no-store" and
-// not next: { revalidate } — the latter is a silent no-op for
-// @sanity/client's requests, confirmed live (a Studio edit stayed
-// unreflected on the deployed site well past any reasonable window).
+// See app/blogs/[slug]/page.tsx for why this is cache: "no-store" via
+// the raw sanityFetch() helper, not client.fetch() with next: {
+// revalidate } — the latter is a silent no-op, confirmed live (a
+// Studio edit stayed unreflected on the deployed site well past any
+// reasonable window).
 const options = { cache: "no-store" as const };
 
 // No Meeting block / Join CTA at the bottom here — the copy deck doesn't
 // call for one on the Blog index the way it does on Curriculum, Projects,
 // and Team.
 export default async function BlogPage() {
-  const posts = await client.fetch(POSTS_QUERY, {}, options);
+  const posts = await sanityFetch<POSTS_QUERY_RESULT>(POSTS_QUERY, {}, options);
 
   return (
     <>

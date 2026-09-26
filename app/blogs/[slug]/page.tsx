@@ -5,23 +5,26 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { PortableText, type PortableTextComponents } from "next-sanity";
 import { Section } from "@/components/ui/Section";
-import { client } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/fetch";
 import { POST_QUERY, POST_SLUGS_QUERY } from "@/lib/sanity/queries";
+import type { POST_QUERY_RESULT, POST_SLUGS_QUERY_RESULT } from "@/lib/sanity/sanity.types";
 import { urlFor } from "@/lib/sanity/image";
 import { formatDate } from "@/lib/utils";
 
-// `next: { revalidate }` doesn't do what it looks like it does here:
-// @sanity/client makes its requests through its own HTTP client, not
-// the global `fetch` Next.js patches, so that option is silently a
-// no-op — verified live, a Studio edit stayed unreflected on the
-// deployed site well past any reasonable revalidate window. Every
-// fetch below is explicitly `cache: "no-store"` instead: always hits
-// Sanity's CDN fresh, which stays fast enough on its own that giving
-// up ISR's edge-cached HTML isn't a real cost for this site's traffic.
+// `next: { revalidate }` (and client.fetch() generally) doesn't do
+// what it looks like it does here: @sanity/client makes its requests
+// through its own HTTP client (get-it), not in a way Next.js's fetch
+// instrumentation reliably caches/keys the same as a plain fetch()
+// call — verified live, a Studio edit stayed unreflected on the
+// deployed site well past any reasonable revalidate window, and stayed
+// stale even with cache: "no-store" passed to client.fetch() directly.
+// sanityFetch() (lib/sanity/fetch.ts) is a plain native fetch() call
+// instead, which Next.js does handle correctly — confirmed the same
+// edit showed up immediately once every page switched to it.
 const options = { cache: "no-store" as const };
 
 export async function generateStaticParams() {
-  const slugs = await client.withConfig({ useCdn: false }).fetch(POST_SLUGS_QUERY, {}, options);
+  const slugs = await sanityFetch<POST_SLUGS_QUERY_RESULT>(POST_SLUGS_QUERY, {}, options);
   return slugs.map(({ slug }) => ({ slug }));
 }
 
@@ -31,7 +34,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await client.withConfig({ useCdn: false }).fetch(POST_QUERY, { slug }, options);
+  const post = await sanityFetch<POST_QUERY_RESULT>(POST_QUERY, { slug }, options);
 
   if (!post) return {};
 
@@ -95,7 +98,7 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = await client.fetch(POST_QUERY, { slug }, options);
+  const post = await sanityFetch<POST_QUERY_RESULT>(POST_QUERY, { slug }, options);
 
   if (!post) return notFound();
 

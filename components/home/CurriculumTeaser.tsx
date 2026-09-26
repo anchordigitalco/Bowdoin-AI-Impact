@@ -3,17 +3,23 @@ import { ArrowRight } from "lucide-react";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Reveal } from "@/components/ui/Reveal";
-import { client } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/fetch";
 import { CURRICULUM_SESSIONS_QUERY } from "@/lib/sanity/queries";
+import type { CURRICULUM_SESSIONS_QUERY_RESULT } from "@/lib/sanity/sanity.types";
 
-// See app/blogs/[slug]/page.tsx for why this is cache: "no-store" and
-// not next: { revalidate } — the latter is a silent no-op for
-// @sanity/client's requests, confirmed live (a Studio edit stayed
-// unreflected on the deployed site well past any reasonable window).
+// See app/blogs/[slug]/page.tsx for why this is cache: "no-store" via
+// the raw sanityFetch() helper, not client.fetch() with next: {
+// revalidate } — the latter is a silent no-op, confirmed live (a
+// Studio edit stayed unreflected on the deployed site well past any
+// reasonable window).
 const options = { cache: "no-store" as const };
 
 export async function CurriculumTeaser() {
-  const sessions = await client.fetch(CURRICULUM_SESSIONS_QUERY, {}, options);
+  const sessions = await sanityFetch<CURRICULUM_SESSIONS_QUERY_RESULT>(
+    CURRICULUM_SESSIONS_QUERY,
+    {},
+    options
+  );
   const preview = sessions.slice(0, 3);
 
   return (
