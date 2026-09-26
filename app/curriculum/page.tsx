@@ -14,7 +14,11 @@ import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Curriculum" };
 
-const options = { next: { revalidate: 60 } };
+// See app/blogs/[slug]/page.tsx for why this is cache: "no-store" and
+// not next: { revalidate } — the latter is a silent no-op for
+// @sanity/client's requests, confirmed live (a Studio edit stayed
+// unreflected on the deployed site well past any reasonable window).
+const options = { cache: "no-store" as const };
 
 // The real date each session is actually taught, from the same
 // schedule the home page calendar reads — not a separate guess.

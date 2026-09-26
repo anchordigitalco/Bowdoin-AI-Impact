@@ -6,8 +6,13 @@ import { Section, SectionHeading } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { academicBreaks, scheduledMeetings } from "@/data/academicCalendar";
-import { curriculum } from "@/data/curriculum";
 import { meeting } from "@/data/meeting";
+
+export interface CalendarSession {
+  order: number;
+  title: string;
+  description: string;
+}
 
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -22,9 +27,9 @@ function parseISO(iso: string) {
   return new Date(`${iso}T00:00:00`);
 }
 
-function sessionFor(order: number | undefined) {
+function sessionFor(sessions: CalendarSession[], order: number | undefined) {
   if (order === undefined) return undefined;
-  return curriculum.find((c) => c.order === order);
+  return sessions.find((c) => c.order === order);
 }
 
 /**
@@ -41,8 +46,14 @@ function sessionFor(order: number | undefined) {
  * is an explicit gray-scale value rather than the theme's dark-tuned
  * tokens (--foreground, --border, etc.), since those would be invisible
  * or low-contrast on a white background.
+ *
+ * Session titles/descriptions come from Sanity (the `sessions` prop)
+ * — this is a client component so it can't fetch them itself; the
+ * home page's server component does that and passes them down, the
+ * same data CurriculumTeaser and the Curriculum page's carousel
+ * already show.
  */
-export function AcademicCalendar() {
+export function AcademicCalendar({ sessions }: { sessions: CalendarSession[] }) {
   // Starts on the first scheduled meeting's month rather than today's,
   // so a visitor in, say, July still lands on a month with something to
   // see.
@@ -68,7 +79,7 @@ export function AcademicCalendar() {
       date.setDate(start.getDate() + i);
       const iso = toISO(date);
       const meetingEntry = scheduledMeetings.find((m) => m.date === iso);
-      const session = sessionFor(meetingEntry?.sessionOrder);
+      const session = sessionFor(sessions, meetingEntry?.sessionOrder);
       const activeBreak = academicBreaks.find((b) => iso >= b.start && iso <= b.end);
       return {
         date,
@@ -81,7 +92,7 @@ export function AcademicCalendar() {
         breakStartsHere: activeBreak?.start === iso || (i === 0 && !!activeBreak),
       };
     });
-  }, [cursor, todayISO]);
+  }, [cursor, todayISO, sessions]);
 
   // Everything worth reading out in the current month, in plain text —
   // more reliable than expecting someone to parse a tiny grid cell.

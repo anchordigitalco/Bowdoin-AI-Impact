@@ -6,7 +6,11 @@ import { Reveal } from "@/components/ui/Reveal";
 import { client } from "@/lib/sanity/client";
 import { CURRICULUM_SESSIONS_QUERY } from "@/lib/sanity/queries";
 
-const options = { next: { revalidate: 60 } };
+// See app/blogs/[slug]/page.tsx for why this is cache: "no-store" and
+// not next: { revalidate } — the latter is a silent no-op for
+// @sanity/client's requests, confirmed live (a Studio edit stayed
+// unreflected on the deployed site well past any reasonable window).
+const options = { cache: "no-store" as const };
 
 export async function CurriculumTeaser() {
   const sessions = await client.fetch(CURRICULUM_SESSIONS_QUERY, {}, options);

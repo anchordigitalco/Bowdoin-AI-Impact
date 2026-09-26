@@ -10,12 +10,18 @@ import { POST_QUERY, POST_SLUGS_QUERY } from "@/lib/sanity/queries";
 import { urlFor } from "@/lib/sanity/image";
 import { formatDate } from "@/lib/utils";
 
-const options = { next: { revalidate: 60 } };
+// `next: { revalidate }` doesn't do what it looks like it does here:
+// @sanity/client makes its requests through its own HTTP client, not
+// the global `fetch` Next.js patches, so that option is silently a
+// no-op — verified live, a Studio edit stayed unreflected on the
+// deployed site well past any reasonable revalidate window. Every
+// fetch below is explicitly `cache: "no-store"` instead: always hits
+// Sanity's CDN fresh, which stays fast enough on its own that giving
+// up ISR's edge-cached HTML isn't a real cost for this site's traffic.
+const options = { cache: "no-store" as const };
 
 export async function generateStaticParams() {
-  const slugs = await client
-    .withConfig({ useCdn: false })
-    .fetch(POST_SLUGS_QUERY, {}, { next: { revalidate: 60 } });
+  const slugs = await client.withConfig({ useCdn: false }).fetch(POST_SLUGS_QUERY, {}, options);
   return slugs.map(({ slug }) => ({ slug }));
 }
 
@@ -25,9 +31,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await client
-    .withConfig({ useCdn: false })
-    .fetch(POST_QUERY, { slug }, { next: { revalidate: 60 } });
+  const post = await client.withConfig({ useCdn: false }).fetch(POST_QUERY, { slug }, options);
 
   if (!post) return {};
 
