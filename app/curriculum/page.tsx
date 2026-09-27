@@ -1,56 +1,24 @@
 import type { Metadata } from "next";
-import { Presentation } from "lucide-react";
+import { Suspense } from "react";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { PageIntro } from "@/components/ui/PageIntro";
-import { CoverFlowCarousel } from "@/components/ui/CoverFlowCarousel";
+import { CurriculumSessionsSection } from "@/components/curriculum/CurriculumSessionsSection";
+import { CurriculumSessionsSkeleton } from "@/components/curriculum/CurriculumSessionsSkeleton";
+import { MeetingSlidesSection } from "@/components/curriculum/MeetingSlidesSection";
+import { MeetingSlidesSkeleton } from "@/components/curriculum/MeetingSlidesSkeleton";
 import { SoftwarePerks } from "@/components/curriculum/SoftwarePerks";
 import { MeetingCta } from "@/components/home/MeetingCta";
-import { Reveal } from "@/components/ui/Reveal";
-import { sanityFetch } from "@/lib/sanity/fetch";
-import { CURRICULUM_SESSIONS_QUERY, MEETING_SLIDES_QUERY } from "@/lib/sanity/queries";
-import type {
-  CURRICULUM_SESSIONS_QUERY_RESULT,
-  MEETING_SLIDES_QUERY_RESULT,
-} from "@/lib/sanity/sanity.types";
-import { scheduledMeetings } from "@/data/academicCalendar";
 import { externalLinks } from "@/data/links";
-import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Curriculum" };
 
-// See app/blogs/[slug]/page.tsx for why this is cache: "no-store" via
-// the raw sanityFetch() helper, not client.fetch() with next: {
-// revalidate } — the latter is a silent no-op, confirmed live (a
-// Studio edit stayed unreflected on the deployed site well past any
-// reasonable window).
-const options = { cache: "no-store" as const };
-
-// The real date each session is actually taught, from the same
-// schedule the home page calendar reads — not a separate guess.
-function dateForSession(order: number) {
-  const entry = scheduledMeetings.find((m) => m.sessionOrder === order);
-  if (!entry) return undefined;
-  return new Date(`${entry.date}T00:00:00`).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
-}
-
-export default async function CurriculumPage() {
-  const [rawSessions, slides] = await Promise.all([
-    sanityFetch<CURRICULUM_SESSIONS_QUERY_RESULT>(CURRICULUM_SESSIONS_QUERY, {}, options),
-    sanityFetch<MEETING_SLIDES_QUERY_RESULT>(MEETING_SLIDES_QUERY, {}, options),
-  ]);
-  // `required()` in the Studio schema keeps these filled in practice —
-  // TypeGen still types every field nullable since that's a Studio-only
-  // constraint, not a schema-level one, so this filter is what actually
-  // narrows the type (and quietly excludes any session someone left
-  // mid-edit rather than crashing the page on it).
-  const sessions = rawSessions.filter(
-    (session): session is typeof session & { order: number; title: string; description: string } =>
-      session.order != null && session.title != null && session.description != null
-  );
-
+// Deliberately NOT async, and no top-level Sanity fetch here anymore —
+// that used to block the whole page behind two round-trips to Sanity.
+// CurriculumSessionsSection and MeetingSlidesSection do their own
+// fetching and each sit behind their own <Suspense> boundary instead,
+// so the page shell streams immediately and only those two sections
+// show a skeleton for the brief window they're still loading.
+export default function CurriculumPage() {
   return (
     <>
       <Section as="div" id="curriculum" className="pt-6 sm:pt-10">
@@ -60,14 +28,9 @@ export default async function CurriculumPage() {
             technical background assumed.
           </p>
         </PageIntro>
-        <CoverFlowCarousel
-          items={sessions.map((session) => ({
-            index: session.order,
-            title: session.title,
-            description: session.description,
-            date: dateForSession(session.order),
-          }))}
-        />
+        <Suspense fallback={<CurriculumSessionsSkeleton />}>
+          <CurriculumSessionsSection />
+        </Suspense>
       </Section>
 
       <Section as="div" id="meeting-slides">
@@ -75,50 +38,9 @@ export default async function CurriculumPage() {
           title="Meeting Slides"
           description="The deck from each meeting, posted afterward for anyone who missed it."
         />
-        {slides.length === 0 ? (
-          <div className="flex items-start gap-3 border-t border-border pt-6">
-            <span className="relative mt-1.5 flex h-2 w-2 shrink-0" aria-hidden="true">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-muted-foreground/40" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-muted-foreground/70" />
-            </span>
-            <div>
-              <p className="font-mono text-xs tracking-[0.1em] text-muted-foreground uppercase">
-                Status: coming soon
-              </p>
-              <p className="mt-2 text-lg text-muted-foreground">
-                First set of slides goes up after the next meeting.
-              </p>
-            </div>
-          </div>
-        ) : (
-          <ul className="divide-y divide-border border-t border-border">
-            {slides.map((slide, i) => (
-              <li key={slide._id}>
-                <Reveal delay={i * 60}>
-                  <a
-                    href={slide.fileUrl ?? slide.url ?? undefined}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center justify-between gap-4 py-5"
-                  >
-                    <span className="flex items-center gap-3 min-w-0">
-                      <Presentation
-                        className="h-5 w-5 shrink-0 text-muted-foreground"
-                        aria-hidden="true"
-                      />
-                      <span className="truncate font-medium group-hover:underline">
-                        {slide.title}
-                      </span>
-                    </span>
-                    <span className="shrink-0 text-sm text-muted-foreground">
-                      {slide.date ? formatDate(slide.date) : null}
-                    </span>
-                  </a>
-                </Reveal>
-              </li>
-            ))}
-          </ul>
-        )}
+        <Suspense fallback={<MeetingSlidesSkeleton />}>
+          <MeetingSlidesSection />
+        </Suspense>
       </Section>
 
       <Section as="div" id="speaker-sphere" className="rounded-3xl bg-muted/40">

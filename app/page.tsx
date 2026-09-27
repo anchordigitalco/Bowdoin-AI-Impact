@@ -1,46 +1,36 @@
+import { Suspense } from "react";
 import { Hero } from "@/components/home/Hero";
 import { HeroQuote } from "@/components/home/HeroQuote";
 import { HeroPitch } from "@/components/home/HeroPitch";
-import { AcademicCalendar } from "@/components/home/AcademicCalendar";
+import { AcademicCalendarSection } from "@/components/home/AcademicCalendarSection";
+import { AcademicCalendarSkeleton } from "@/components/home/AcademicCalendarSkeleton";
 import { ThreeUp } from "@/components/home/ThreeUp";
 import { CurriculumTeaser } from "@/components/home/CurriculumTeaser";
+import { CurriculumTeaserSkeleton } from "@/components/home/CurriculumTeaserSkeleton";
 import { ProjectsTeaser } from "@/components/home/ProjectsTeaser";
 import { ClosingCta } from "@/components/home/ClosingCta";
-import { sanityFetch } from "@/lib/sanity/fetch";
-import { CURRICULUM_SESSIONS_QUERY } from "@/lib/sanity/queries";
-import type { CURRICULUM_SESSIONS_QUERY_RESULT } from "@/lib/sanity/sanity.types";
 
-// See app/blogs/[slug]/page.tsx for why this is cache: "no-store" via
-// the raw sanityFetch() helper, not client.fetch() with next: {
-// revalidate } — the latter is a silent no-op, confirmed live (a
-// Studio edit stayed unreflected on the deployed site well past any
-// reasonable window).
-const options = { cache: "no-store" as const };
-
-export default async function HomePage() {
-  // AcademicCalendar is a client component (state for month
-  // navigation), so it can't fetch this itself — fetched here and
-  // passed down. Next.js dedupes this against CurriculumTeaser's own
-  // identical fetch within the same request, so this isn't a second
-  // round-trip to Sanity.
-  const rawSessions = await sanityFetch<CURRICULUM_SESSIONS_QUERY_RESULT>(
-    CURRICULUM_SESSIONS_QUERY,
-    {},
-    options
-  );
-  const sessions = rawSessions.filter(
-    (session): session is typeof session & { order: number; title: string; description: string } =>
-      session.order != null && session.title != null && session.description != null
-  );
-
+// Deliberately NOT async, and no top-level Sanity fetch here anymore —
+// that used to block the entire page (Hero included) behind the
+// round-trip to Sanity, which read as a loading-screen flash before
+// the hero ever painted. AcademicCalendarSection and CurriculumTeaser
+// do their own fetching and sit behind their own <Suspense> boundary
+// instead, so Hero and everything else stream in immediately and only
+// those two sections show a skeleton for the brief window they're
+// still loading.
+export default function HomePage() {
   return (
     <>
       <Hero />
       <HeroQuote />
       <HeroPitch />
-      <AcademicCalendar sessions={sessions} />
+      <Suspense fallback={<AcademicCalendarSkeleton />}>
+        <AcademicCalendarSection />
+      </Suspense>
       <ThreeUp />
-      <CurriculumTeaser />
+      <Suspense fallback={<CurriculumTeaserSkeleton />}>
+        <CurriculumTeaser />
+      </Suspense>
       <ProjectsTeaser />
       <ClosingCta />
     </>
