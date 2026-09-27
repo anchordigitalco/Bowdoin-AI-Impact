@@ -48,10 +48,12 @@ export const CURRICULUM_SESSIONS_QUERY = defineQuery(`
 
 /** Posted meeting slide decks, most recent meeting first. */
 export const MEETING_SLIDES_QUERY = defineQuery(`
-  *[_type == "meetingSlides" && defined(url)] | order(date desc) {
+  *[_type == "meetingSlides" && (defined(url) || defined(file.asset))] | order(date desc) {
     _id,
     title,
     date,
-    url
+    url,
+    "fileUrl": file.asset->url,
+    "fileName": file.asset->originalFilename
   }
 `);

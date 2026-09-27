@@ -96,7 +96,7 @@ export default async function CurriculumPage() {
               <li key={slide._id}>
                 <Reveal delay={i * 60}>
                   <a
-                    href={slide.url ?? undefined}
+                    href={slide.fileUrl ?? slide.url ?? undefined}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group flex items-center justify-between gap-4 py-5"

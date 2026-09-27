@@ -15,6 +15,13 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
+export type SanityFileAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+};
+
 export type MeetingSlides = {
   _id: string;
   _type: "meetingSlides";
@@ -23,6 +30,11 @@ export type MeetingSlides = {
   _rev: string;
   title?: string;
   date?: string;
+  file?: {
+    asset?: SanityFileAssetReference;
+    media?: unknown;
+    _type: "file";
+  };
   url?: string;
 };
 
@@ -217,6 +229,7 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | SanityFileAssetReference
   | MeetingSlides
   | CurriculumSession
   | SanityImageAssetReference
@@ -326,12 +339,14 @@ export type CURRICULUM_SESSIONS_QUERY_RESULT = Array<{
 
 // Source: ../lib/sanity/queries.ts
 // Variable: MEETING_SLIDES_QUERY
-// Query: *[_type == "meetingSlides" && defined(url)] | order(date desc) {    _id,    title,    date,    url  }
+// Query: *[_type == "meetingSlides" && (defined(url) || defined(file.asset))] | order(date desc) {    _id,    title,    date,    url,    "fileUrl": file.asset->url,    "fileName": file.asset->originalFilename  }
 export type MEETING_SLIDES_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
   date: string | null;
-  url: string;
+  url: string | null;
+  fileUrl: string | null;
+  fileName: string | null;
 }>;
 
 // Query TypeMap
@@ -341,7 +356,7 @@ declare global {
     '\n  *[_type == "post" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    author,\n    authorRole,\n    publishedAt,\n    tags,\n    coverImage,\n    body\n  }\n': POST_QUERY_RESULT;
     '\n  *[_type == "post" && defined(slug.current)]{ "slug": slug.current }\n': POST_SLUGS_QUERY_RESULT;
     '\n  *[_type == "curriculumSession"] | order(order asc) {\n    _id,\n    order,\n    title,\n    description\n  }\n': CURRICULUM_SESSIONS_QUERY_RESULT;
-    '\n  *[_type == "meetingSlides" && defined(url)] | order(date desc) {\n    _id,\n    title,\n    date,\n    url\n  }\n': MEETING_SLIDES_QUERY_RESULT;
+    '\n  *[_type == "meetingSlides" && (defined(url) || defined(file.asset))] | order(date desc) {\n    _id,\n    title,\n    date,\n    url,\n    "fileUrl": file.asset->url,\n    "fileName": file.asset->originalFilename\n  }\n': MEETING_SLIDES_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too
