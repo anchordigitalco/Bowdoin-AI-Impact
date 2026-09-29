@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { siteName } from "@/data/site";
 import { lenisRef } from "@/lib/lenis";
-import { cn } from "@/lib/utils";
+import { HERO_PORTRAIT_SRC, HERO_POSTER_SRC, HERO_VIDEO_SRC } from "@/data/hero";
 
 /**
  * Scroll-driven parallax hero, three stacked layers (back to front):
@@ -26,30 +26,21 @@ import { cn } from "@/lib/utils";
  * crossfade layered on top of it (tried a couple of those; every version
  * read as a blur or a flash, which looked worse than the plain cut).
  *
+ * The poster is the video's exact first frame (no bear — the bear is only
+ * ever the separate portrait layer), so the first paint is already the
+ * final composition and playback starting is just the scene beginning to
+ * move. A poster that differs from frame 0 reads as a loading screen that
+ * snaps into the real hero ~1-2s later, which is what the video's size
+ * (and `preload="none"`) makes visible on every load. If the video file is
+ * ever re-cut, regenerate hero-first-frame.jpg from its new first frame.
+ *
  * Respects prefers-reduced-motion: we never call .play() and the video is
  * `preload="none"`, so the browser never fetches the video file at all —
- * it just displays the poster image (which already shows the same scene),
- * with no Lenis/ScrollTrigger set up, the layers left in their static CSS
- * position, and the portrait layer hidden so it doesn't duplicate the
- * poster's bear.
- *
- * That same duplicate-bear problem also showed up for everyone else, just
- * briefly: `preload="none"` means the video doesn't start fetching until
- * this effect calls .play(), so there's a real window — worse on a slow
- * connection — where the poster (which already has its own bear baked in)
- * is the only thing painted, while the separate portrait layer is already
- * sitting on top of it at full opacity. Same fix as the reduced-motion
- * case, just gated on actual playback instead of the media query: the
- * portrait layer stays hidden until the video's `onPlaying` fires, i.e.
- * until real frames are on screen and it's no longer competing with the
- * poster's own bear for the same spot. If autoplay gets blocked entirely,
- * `onPlaying` just never fires and the poster alone covers it, same as
- * the .catch() below already assumes.
+ * the poster + portrait just stay as a still, with no Lenis/ScrollTrigger.
  */
 export function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoPlaying, setVideoPlaying] = useState(false);
 
   useEffect(() => {
     const reduceMotion = window.matchMedia(
@@ -118,14 +109,13 @@ export function Hero() {
           ref={videoRef}
           className="h-full w-full object-cover"
           style={{ transform: "scale(1.3) translateY(-15%)" }}
-          src="/hero-agent.mp4"
-          poster="/hero-poster.jpg"
+          src={HERO_VIDEO_SRC}
+          poster={HERO_POSTER_SRC}
           muted
           loop
           playsInline
           preload="none"
           aria-hidden="true"
-          onPlaying={() => setVideoPlaying(true)}
         />
       </div>
 
@@ -161,17 +151,14 @@ export function Hero() {
         </div>
       </div>
 
-      <div
-        data-parallax-layer="portrait"
-        className={cn(
-          "pointer-events-none absolute inset-x-0 bottom-0 opacity-0 transition-opacity duration-300 motion-reduce:hidden",
-          videoPlaying && "opacity-100"
-        )}
-      >
+      <div data-parallax-layer="portrait" className="pointer-events-none absolute inset-x-0 bottom-0">
         {/* eslint-disable-next-line @next/next/no-img-element -- decorative hero art GSAP transforms directly; next/image's wrapper fights that. */}
         <img
-          src="/hero-agent.png"
+          src={HERO_PORTRAIT_SRC}
           alt=""
+          width={1678}
+          height={937}
+          fetchPriority="high"
           className="block h-auto w-full"
           style={{ translate: "0 5%" }}
         />

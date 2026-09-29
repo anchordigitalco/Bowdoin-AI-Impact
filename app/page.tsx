@@ -1,5 +1,7 @@
 import { Suspense } from "react";
+import { preload } from "react-dom";
 import { Hero } from "@/components/home/Hero";
+import { HERO_PORTRAIT_SRC, HERO_POSTER_SRC } from "@/data/hero";
 import { HeroQuote } from "@/components/home/HeroQuote";
 import { HeroPitch } from "@/components/home/HeroPitch";
 import { AcademicCalendarSection } from "@/components/home/AcademicCalendarSection";
@@ -19,6 +21,11 @@ import { ClosingCta } from "@/components/home/ClosingCta";
 // those two sections show a skeleton for the brief window they're
 // still loading.
 export default function HomePage() {
+  // Both hero images are in the very first paint, so fetch them alongside
+  // the CSS rather than after the parser reaches the <video>/<img>.
+  preload(HERO_POSTER_SRC, { as: "image", fetchPriority: "high" });
+  preload(HERO_PORTRAIT_SRC, { as: "image", fetchPriority: "high" });
+
   return (
     <>
       <Hero />
