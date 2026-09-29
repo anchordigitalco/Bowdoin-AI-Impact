@@ -33,6 +33,15 @@ export default function TeamPage() {
             >
               contact us on Campus Groups
             </a>
+            , and follow the club on{" "}
+            <a
+              href={externalLinks.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground underline underline-offset-4 hover:no-underline"
+            >
+              LinkedIn
+            </a>
             .
           </p>
         </PageIntro>

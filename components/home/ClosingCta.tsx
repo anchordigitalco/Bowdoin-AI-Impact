@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { LinkedinIcon } from "@/components/ui/LinkedinIcon";
 import { joinHref } from "@/data/nav";
 import { meeting } from "@/data/meeting";
+import { externalLinks } from "@/data/links";
+import { siteName } from "@/data/site";
 
 // Left centered on purpose — a short closing line reads better centered
 // than forced into asymmetry, and MeetingBlock (which always precedes
@@ -28,6 +31,16 @@ export function ClosingCta() {
           <p className="mt-4 text-sm text-muted-foreground">
             {meeting.day}s, {meeting.displayTime} · {meeting.roomShort}
           </p>
+          {/* Same treatment as the leader cards' LinkedIn icons on the Team page, scaled up. */}
+          <a
+            href={externalLinks.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${siteName} on LinkedIn`}
+            className="mt-10 inline-flex text-muted-foreground transition-[color,transform] duration-200 ease-out hover:-rotate-12 hover:scale-110 hover:text-[#0A66C2]"
+          >
+            <LinkedinIcon className="h-14 w-14 sm:h-16 sm:w-16" />
+          </a>
         </div>
       </Reveal>
     </Section>

@@ -20,29 +20,30 @@ export function Footer() {
           </span>
         </p>
 
-        <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
-          <span>
+        <div className="flex flex-col items-center gap-1">
+          <p>
             Meetings {meeting.day}s {meeting.displayTime}, {meeting.roomShort}
-          </span>
-          <span aria-hidden="true">·</span>
-          <a
-            href={externalLinks.campusGroups}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-foreground"
-          >
-            Join on Campus Groups
-          </a>
-          <span aria-hidden="true">·</span>
-          <a
-            href={externalLinks.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-foreground"
-          >
-            LinkedIn
-          </a>
-        </p>
+          </p>
+          <p className="flex items-center gap-x-2">
+            <a
+              href={externalLinks.campusGroups}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground"
+            >
+              Join on Campus Groups
+            </a>
+            <span aria-hidden="true">·</span>
+            <a
+              href={externalLinks.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground"
+            >
+              LinkedIn
+            </a>
+          </p>
+        </div>
 
         {/* Anchor Digital's own credit tag — icon (masked so it follows
             text color/hover, same asset as their real site's mark) next
