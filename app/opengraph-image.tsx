@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { siteName } from "@/data/site";
+import { meeting } from "@/data/meeting";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -52,7 +53,7 @@ export default async function Image() {
             Teaching AI to every major.
           </span>
           <span style={{ fontSize: 30, color: "#a1a1aa" }}>
-            Mondays, 8:30–9:30 PM · Mills 127 · All skill levels welcome
+            {`${meeting.day}s, ${meeting.displayTime} · ${meeting.roomShort} · All skill levels welcome`}
           </span>
         </div>
       </div>

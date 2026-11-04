@@ -6,10 +6,10 @@
 export const meeting = {
   day: "Monday" as const,
   /** 24-hour "HH:MM", used to build the .ics file. Assumed to be evening (PM). */
-  startTime: "19:30",
-  endTime: "20:30",
+  startTime: "20:30",
+  endTime: "21:30",
   /** Human-readable time range shown on the page. */
-  displayTime: "7:30 – 8:30 PM",
+  displayTime: "8:30 – 9:30 PM",
   building: "Sills Hall",
   room: "Room 010",
   /** Compact form for tight spaces — the footer, meta description. */
